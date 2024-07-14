@@ -1,0 +1,78 @@
+import { gql } from '@apollo/client';
+
+export const QUERY_USER = gql`
+  query user($userId: ID!) {
+    user(userId: $userId) {
+      _id
+      username
+      email
+      bio
+      profileUrl
+      posts {
+        _id
+        title
+        createdAt
+      }
+    }
+  }
+`;
+
+export const QUERY_TAGS = gql`
+  query getTags {
+    tags {
+      _id
+      tagText
+      posts {
+        _id
+        title
+        createdAt
+      }
+    }
+  }
+`;
+
+export const QUERY_POSTS = gql`
+  query getPosts {
+    posts {
+      _id
+      title
+      postAuthor
+      createdAt
+    }
+  }
+`;
+
+export const QUERY_SINGLE_POST = gql`
+  query getSinglePost($postId: ID!) {
+    post(postId: $postId) {
+      _id
+      title
+      postAuthor
+      createdAt
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+      }
+    }
+  }
+`;
+
+export const QUERY_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+      bio
+      profileUrl
+      posts {
+        _id
+        title
+        postAuthor
+        createdAt
+      }
+    }
+  }
+`;

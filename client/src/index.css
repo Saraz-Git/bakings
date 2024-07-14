@@ -1,0 +1,27 @@
+.fade {
+    opacity: 0;
+    transition: 0.8s;
+}
+
+.fade:hover {
+    opacity: 1;
+}
+
+.offset {
+    transition: transform 0.5s;
+    margin: 0 auto;
+}
+
+.offset:hover {
+    transform: scale(1.05);
+}
+
+
+.zoom {
+    transition: transform 1s;
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.25);
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "username": "Alan Baker",
+    "email": "alan_baker@example.com",
+    "password": "password123",
+    "bio": "Passionate home baker specializing in bread and cakes."
+  },
+  
+  {
+    "username": "Pastry Pal",
+    "email": "pastry_pal@example.com",
+    "password": "password123",
+    "bio": "Sharing my favorite recipes and tips to help one bake like a pro."
+  },
+  {
+    "username": "Cookie Monster",
+    "email": "cookie_monster@example.com",
+    "password": "password123",
+    "bio": "Count your cookies, not your problems."
+  }
+]
