@@ -57,7 +57,8 @@ const CreatePage = () => {
     try {
       const { data } = await addPost({
         variables: {title: title, coverUrl: imgUrl},
-      });     
+      });   
+      console.log(data);  
     } catch (err) {
       console.error(err);
     }

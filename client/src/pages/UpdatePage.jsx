@@ -15,7 +15,7 @@ import {
   Container,
   Textarea,
 } from '@chakra-ui/react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 
 
@@ -30,8 +30,13 @@ import Auth from '../utils/auth';
 import usePreviewImg from '../hooks/usePreviewImg';
 
 const UpdatePage = () => {
+  if (!Auth.loggedIn() ) {
+    return <Navigate to="/" />;
+  }
 
-  const [formState, setFormState] = useState({ username: '',password: '', bio: '', profileUrl: '' });
+  console.log(Auth.getProfile().data._id);
+  
+  const [formState, setFormState] = useState({ id: Auth.getProfile().data._id, username: '',password: '', bio: '', profileUrl: '' });
   const [updateUser, {error, data}]=useMutation(UPDATE_USER);
 
   const handleChange = (event) => {
@@ -43,6 +48,8 @@ const UpdatePage = () => {
     });
    };
 
+    console.log(formState) ;
+
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -50,9 +57,8 @@ const UpdatePage = () => {
     try {
       const { data } = await updateUser({
         variables: { ...formState },
-      });
-
-      
+      });  
+     
     } catch (e) {
       console.error(e);
     }
@@ -60,6 +66,7 @@ const UpdatePage = () => {
 
   const fileRef = useRef(null);
   const {handleImageChange, imgUrl}= usePreviewImg();
+
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,8 +97,8 @@ const UpdatePage = () => {
         <FormControl id="userName" >
           <FormLabel >User name</FormLabel>
           <Input
-         
-          onChange={handleChange}
+           name="username"  
+           onChange={handleChange}
             placeholder={Auth.getProfile().data.username}
             _placeholder={{ color: 'gray.500' }}
             type="text"
@@ -101,8 +108,8 @@ const UpdatePage = () => {
           <FormControl id="password" >
           <FormLabel>Password</FormLabel>
           <Input
-          
-          onChange={handleChange}
+           name="password"
+           onChange={handleChange}
             placeholder="password"
             _placeholder={{ color: 'gray.500' }}
             type="password"
@@ -113,7 +120,7 @@ const UpdatePage = () => {
           <FormLabel>Bio</FormLabel>
           <Textarea
             placeholder="your bio"
-            
+            name="bio" 
             onChange={handleChange}
             _placeholder={{ color: 'gray.500' }}
             type="text"

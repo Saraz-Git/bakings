@@ -53,21 +53,26 @@ const resolvers = {
         },
 
 
-        updateUser: async (_, { username, password, bio, profileUrl }, context) => {
-            if (context.user) {
+        updateUser: async (_, { id, username, password, bio, profileUrl }) => {
 
-                return await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $set: { username, password, bio, profileUrl } },
-                    // Return the newly updated object instead of the original
-                    { new: true }
-                );
-            }
+            return await User.findOneAndUpdate(
+                { _id: id },
+                {
+                    username: username,
+                    password: password,
+                    bio: bio,
+                    profileUrl: profileUrl
+                },
+                // Return the newly updated object instead of the original
+                { new: true }
+            );
+
         },
 
 
         addPost: async (parent, { title, coverUrl }, context) => {
             if (context.user) {
+                console.log(process.env.CLOUDINARY_API_KEY);
                 cloudinary.config({
                     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
                     api_key: process.env.CLOUDINARY_API_KEY,

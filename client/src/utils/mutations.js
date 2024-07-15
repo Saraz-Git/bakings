@@ -25,10 +25,10 @@ export const ADD_USER = gql`
 `;
 
 export const UPDATE_USER = gql`
-mutation updateUser($username: String, $password: String,$bio: String, $profileUrl:String){
- updateUser(username:$username, password:$password, bio:$bio, profileUrl:$profileUrl){
+mutation updateUser($id: ID!, $username: String, $password: String, $bio: String, $profileUrl:String){
+ updateUser(id: $id, username:$username, password:$password, bio:$bio, profileUrl:$profileUrl){
  user {
-        
+        _id
         username
         password
         bio
