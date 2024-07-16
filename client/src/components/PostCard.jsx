@@ -1,6 +1,6 @@
 import {Card,CardBody,Heading, Text, Link, Stack,Image, CardFooter,AspectRatio} from '@chakra-ui/react';
 
-const PostCard = ({title,imgUrl}) => {
+const PostCard = ({postId, title,imgUrl}) => {
   return (
     <Link w={'full'} href='/posts/:id' style={{ textDecoration: 'none' }} className='offset'>
     <Card

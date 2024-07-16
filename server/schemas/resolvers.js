@@ -54,6 +54,18 @@ const resolvers = {
 
 
         updateUser: async (_, { id, username, password, bio, profileUrl }) => {
+            console.log(id);
+            if (profileUrl) {
+                cloudinary.config({
+                    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                    api_key: process.env.CLOUDINARY_API_KEY,
+                    api_secret: process.env.CLOUDINARY_API_SECRET,
+                });
+
+                const uploadedResponse = await cloudinary.uploader.upload(profileUrl);
+                profileUrl = uploadedResponse.secure_url;
+
+            }
 
             return await User.findOneAndUpdate(
                 { _id: id },
@@ -67,12 +79,15 @@ const resolvers = {
                 { new: true }
             );
 
+
+
+
+
         },
 
 
         addPost: async (parent, { title, coverUrl }, context) => {
             if (context.user) {
-                console.log(process.env.CLOUDINARY_API_KEY);
                 cloudinary.config({
                     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
                     api_key: process.env.CLOUDINARY_API_KEY,

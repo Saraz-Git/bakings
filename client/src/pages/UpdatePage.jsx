@@ -17,15 +17,12 @@ import {
 } from '@chakra-ui/react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 
-
-
 import { useRef, useState } from 'react';
 import { useQuery ,useMutation } from '@apollo/client';
 import { UPDATE_USER } from '../utils/mutations';
+import {QUERY_ME} from '../utils/queries';
 
 import Auth from '../utils/auth';
-
-
 
 import usePreviewImg from '../hooks/usePreviewImg';
 
@@ -33,11 +30,16 @@ const UpdatePage = () => {
   if (!Auth.loggedIn() ) {
     return <Navigate to="/" />;
   }
-
-  console.log(Auth.getProfile().data._id);
   
-  const [formState, setFormState] = useState({ id: Auth.getProfile().data._id, username: '',password: '', bio: '', profileUrl: '' });
+  const [formState, setFormState] = useState({ id: Auth.getProfile().data._id, username: Auth.getProfile().data.username,});
   const [updateUser, {error, data}]=useMutation(UPDATE_USER);
+  const {data: currentUser} = useQuery(QUERY_ME);
+  const user= currentUser?.me||{};
+
+  console.log(user.bio);
+
+  // console.log(Auth.getProfile().data);
+ 
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -46,18 +48,22 @@ const UpdatePage = () => {
       ...formState,
       [name]: value,
     });
+    console.log(formState);
    };
 
-    console.log(formState) ;
+   
+    
 
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
     try {
-      const { data } = await updateUser({
-        variables: { ...formState },
+       await updateUser({
+        variables: { ...formState, profileUrl: imgUrl },
       });  
+
+      navigate('/me');
      
     } catch (e) {
       console.error(e);
@@ -66,6 +72,8 @@ const UpdatePage = () => {
 
   const fileRef = useRef(null);
   const {handleImageChange, imgUrl}= usePreviewImg();
+
+  
 
 
   const location = useLocation();
@@ -84,13 +92,13 @@ const UpdatePage = () => {
           
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" src={imgUrl}/>
+              <Avatar size="xl" src={imgUrl || user.profileUrl}/>
                 
               
             </Center>
             <Center w="full">
               <Button w="full" onClick={()=> fileRef.current.click()}>Update Profile Picture</Button>
-              <Input type='file' hidden ref={fileRef} onChange={handleImageChange}/>
+              <Input type='file'  hidden ref={fileRef} onChange={handleImageChange}/>
             </Center>
           </Stack>
         </FormControl>
@@ -108,6 +116,7 @@ const UpdatePage = () => {
           <FormControl id="password" >
           <FormLabel>Password</FormLabel>
           <Input
+          isDisabled
            name="password"
            onChange={handleChange}
             placeholder="password"
@@ -119,7 +128,7 @@ const UpdatePage = () => {
         <FormControl id="bio" >
           <FormLabel>Bio</FormLabel>
           <Textarea
-            placeholder="your bio"
+            placeholder={user.bio}
             name="bio" 
             onChange={handleChange}
             _placeholder={{ color: 'gray.500' }}
