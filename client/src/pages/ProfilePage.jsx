@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Flex, Text ,Link, Container} from "@chakra-ui/reac
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
+import PostList from "../components/PostList";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -19,7 +20,7 @@ const ProfilePage = () => {
   });
 
   const user = data?.me || data?.user || {};
-  console.log(data);
+  
   
   if (Auth.loggedIn() && Auth.getProfile().data._id === useParams().userId) {
     return <Navigate to="/me" />;
@@ -36,7 +37,7 @@ const ProfilePage = () => {
         <Flex justifyContent={'space-between'} alignItems={'center'} mb={8}>
             <Flex alignItems={'center'} gap={4}>
               <Avatar name='username'
-					src='https://bit.ly/broken-link'
+					src={user.profileUrl || 'https://bit.ly/broken-link'}
 					size={{base: "md",md: "xl",}}/>
               <Text fontSize={'lg'}>{user.username}</Text>
             </Flex>
@@ -72,7 +73,10 @@ const ProfilePage = () => {
         
     </Box>
 
-    {user.posts && user.posts.map((post)=>(<Box key={post._id}>{post.title}</Box>))}
+    {user.posts && <PostList posts={user.posts}/>}
+
+
+    
     </Container>
   )
 }
