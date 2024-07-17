@@ -8,25 +8,41 @@ const cleanDB = require('./cleanDB');
 db.once('open', async () => {
     try {
         await cleanDB('Post', 'posts');
-
         await cleanDB('User', 'users');
-
         await cleanDB('Tag', 'tags');
 
-        await User.create(userSeeds);
+        const users = await User.create(userSeeds);
 
-        await Tag.create(tagSeeds);
+        const tags = await Tag.create(tagSeeds);
 
-        for (let i = 0; i < postSeeds.length; i++) {
-            const { _id, postAuthor } = await Post.create(postSeeds[i]);
-            const user = await User.findOneAndUpdate(
-                { username: postAuthor },
-                {
-                    $addToSet: {
-                        posts: _id,
-                    },
-                }
-            );
+        const posts = await Post.create(postSeeds);
+
+        // for (let i = 0; i < postSeeds.length; i++) {
+        //     const { _id, postAuthor } = await Post.create(postSeeds[i]);
+        //     const user = await User.findOneAndUpdate(
+        //         { username: postAuthor },
+        //         {
+        //             $addToSet: {
+        //                 posts: _id,
+        //             },
+        //         }
+        //     );
+        // }
+
+        for (newPost of posts) {
+            // randomly add each post to a user
+            const tempUser = users[Math.floor(Math.random() * users.length)];
+            tempUser.posts.push(newPost._id);
+
+            newPost.postAuthor = tempUser._id;
+            await newPost.save();
+            await tempUser.save();
+
+            // randomly add a tag to each post
+            const tempTag = tags[Math.floor(Math.random() * tags.length)];
+            // reference post on tag(p) model
+            tempTag.posts.push(newPost._id);
+            await tempTag.save();
         }
 
 

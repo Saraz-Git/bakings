@@ -1,7 +1,8 @@
 import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner } from "@chakra-ui/react"
 import { useParams } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 import { useQuery } from '@apollo/client';
-import { QUERY_SINGLE_POST } from '../utils/queries';
+import { QUERY_SINGLE_POST, QUERY_USER } from '../utils/queries';
 
 const PostPage = () => {
    const { postId } = useParams();
@@ -12,7 +13,9 @@ const PostPage = () => {
   });
   const post = data?.post || {};
 
-  // post.postAuthor
+  console.log(post.postAuthor?._id);
+  const {loading: loadingUser, data: dataUser}= useQuery(QUERY_USER,{variables: { userId: post.postAuthor?._id }});
+  const user = dataUser?.user || '';
 
   if(loading){
     return  <Spinner
@@ -46,7 +49,7 @@ const PostPage = () => {
         </Box>
          <Box bg='red.100' borderRadius={'md'} p={2} textAlign={'center'}>
           <Text fontSize={'sm'}>Author</Text>
-          <Text fontSize={'sm'}>{post.postAuthor}</Text>
+          <Text as={RouterLink} to={`/profiles/${user._id}`} fontSize={'sm'}>{user.username}</Text>
         </Box>
 
       </Flex>

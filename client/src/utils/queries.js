@@ -33,6 +33,21 @@ export const QUERY_TAGS = gql`
   }
 `;
 
+export const QUERY_TAG = gql`
+  query getSingleTag($tagId: ID!) {
+   tag (tagId: $tagId) {
+      _id
+      tagText
+      posts {
+        _id
+        title
+        coverUrl
+        createdAt
+      }
+    }
+  }
+`;
+
 export const QUERY_POSTS = gql`
   query getPosts {
     posts {
@@ -51,7 +66,9 @@ export const QUERY_SINGLE_POST = gql`
       _id
       title
       coverUrl
-      postAuthor
+      postAuthor{
+       _id
+      }
       createdAt
       comments {
         _id
@@ -75,7 +92,7 @@ export const QUERY_ME = gql`
         _id
         title
         coverUrl
-        postAuthor
+        
         createdAt
       }
     }

@@ -33,7 +33,7 @@ const ProfilePage = () => {
 
      <Container pb={12}>
     
-    <Box my={12}>
+     <Box my={6}>
         <Flex justifyContent={'space-between'} alignItems={'center'} mb={8}>
             <Flex alignItems={'center'} gap={4}>
               <Avatar name='username'
