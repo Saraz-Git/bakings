@@ -1,13 +1,27 @@
 import { Container , VStack} from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
+import { Link as RouterLink } from "react-router-dom";
+import PostList from "../components/PostList";
+import { useParams } from 'react-router-dom';
+
+import { useQuery } from '@apollo/client';
+import { QUERY_TAG } from '../utils/queries';
 
 const ListPage = () => {
+  const {loading, data}= useQuery(QUERY_TAG, {variables: { tagId: useParams().tagId }});
+  const tag = data?.tag||{};
+  console.log(tag.posts);
+
+
+
+
+
   return (
     <Container py={12}>
-      <VStack spacing='24px'>
-       <PostCard title='Coffee Latte'imgUrl='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'/>
-       <PostCard title='Coffee Latte'imgUrl='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'/>
-      </VStack>
+      
+      {tag.posts && <PostList posts={tag.posts}/>}
+
+
     </Container>
   )
 }

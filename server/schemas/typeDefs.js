@@ -13,7 +13,7 @@ const typeDefs = `
     _id: ID
     title: String
     coverUrl: String
-    postAuthor: String
+    postAuthor: User
     createdAt: String
     comments: [Comment]
   }
@@ -21,7 +21,7 @@ const typeDefs = `
   type Tag {
     _id: ID
     tagText: String
-    posts: [Post]!
+    posts: [Post]
   }
 
   type Comment {
@@ -38,6 +38,7 @@ const typeDefs = `
 
   type Query {
     tags: [Tag]
+    tag(tagId: ID!): Tag
     users: [User]
     user(userId: ID!): User
     posts(username: String): [Post]

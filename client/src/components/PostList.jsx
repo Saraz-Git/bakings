@@ -8,7 +8,7 @@ const PostList = ({posts}) => {
   console.log(posts);
 
 if (!posts.length) {
-    return <Box>No Thoughts Yet</Box>;
+    return <Box>No posts yet</Box>;
   }
 
   return (

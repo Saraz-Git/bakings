@@ -7,6 +7,10 @@ const resolvers = {
         tags: async () => {
             return Tag.find().populate('posts');
         },
+        tag: async (_, { tagId }) => {
+
+            return Tag.findOne({ _id: tagId }).populate('posts');
+        },
         users: async () => {
             return User.find().populate('posts');
         },
@@ -101,7 +105,7 @@ const resolvers = {
                 const post = await Post.create({
                     title,
                     coverUrl,
-                    postAuthor: context.user.username,
+                    postAuthor: context.user._id,
                 });
 
                 await User.findOneAndUpdate(
