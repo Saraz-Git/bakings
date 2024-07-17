@@ -1,18 +1,22 @@
 [
   {
     "title": "Flourless Orange Cake",
+    "coverUrl" : "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184345/vy0kxhrsiuytopgpc2yx.webp",
     "postAuthor": "Alan Baker"
   },
   {
     "title": "Banana Bread",
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721130930/efqrw1icnmrjilkpacol.jpg",
     "postAuthor": "Alan Baker"
   },
    {
     "title": "Classic Scone",
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184707/ltcllm9vnt5ffaelgcjk.jpg",
     "postAuthor": "Pastry Pal"
   },
    {
     "title": "Christmas Sugar Cookies",
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721185250/widz1a5u0m0zgofyvvex.jpg",
     "postAuthor": "Cookie Monster"
   }
 ]

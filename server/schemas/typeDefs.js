@@ -6,13 +6,7 @@ const typeDefs = `
     password: String
     bio: String
     profileUrl: String
-    posts: [Post]!
-  }
-  
-  type Tag {
-    _id: ID
-    tagText: String
-    posts: [Post]!
+    posts: [Post]
   }
 
   type Post {
@@ -21,7 +15,13 @@ const typeDefs = `
     coverUrl: String
     postAuthor: String
     createdAt: String
-    comments: [Comment]!
+    comments: [Comment]
+  }
+
+  type Tag {
+    _id: ID
+    tagText: String
+    posts: [Post]!
   }
 
   type Comment {

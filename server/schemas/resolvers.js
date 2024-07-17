@@ -54,13 +54,17 @@ const resolvers = {
 
 
         updateUser: async (_, { id, username, password, bio, profileUrl }) => {
-            console.log(id);
+            const user = await User.findOne({ _id: id });
             if (profileUrl) {
                 cloudinary.config({
                     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
                     api_key: process.env.CLOUDINARY_API_KEY,
                     api_secret: process.env.CLOUDINARY_API_SECRET,
                 });
+
+                if (user.profileUrl) {
+                    await cloudinary.uploader.destroy(user.profileUrl.split("/").pop().split(".")[0]);
+                }
 
                 const uploadedResponse = await cloudinary.uploader.upload(profileUrl);
                 profileUrl = uploadedResponse.secure_url;
@@ -78,11 +82,6 @@ const resolvers = {
                 // Return the newly updated object instead of the original
                 { new: true }
             );
-
-
-
-
-
         },
 
 
@@ -109,6 +108,13 @@ const resolvers = {
                     { _id: context.user._id },
                     { $addToSet: { posts: post._id } }
                 );
+
+
+                // [tagTexts] for each 
+                // await Tag.findOneAndUpdate(
+                //     { tagText: tagText },
+                //     { $addToSet: { posts: post._id } }
+                // );
 
                 return post;
             }
