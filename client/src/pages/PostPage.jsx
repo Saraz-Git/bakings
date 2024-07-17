@@ -1,18 +1,43 @@
-import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr } from "@chakra-ui/react"
-
+import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner } from "@chakra-ui/react"
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { QUERY_SINGLE_POST } from '../utils/queries';
 
 const PostPage = () => {
+   const { postId } = useParams();
+
+  const { loading, data } = useQuery(QUERY_SINGLE_POST, {
+    // pass URL parameter
+    variables: { postId: postId },
+  });
+  const post = data?.post || {};
+
+  // post.postAuthor
+
+  if(loading){
+    return  <Spinner
+             thickness='4px'
+             speed='0.65s'
+             emptyColor='gray.200'
+             color='orange.500'
+             size='xl'
+             m={12}
+             />
+  }
+
   return (
     <Container  py={12}>
       <AspectRatio ratio={3 / 2}>
         <Image
         w={'full'}
         objectFit='cover'
-        src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
-        alt='Dan Abramov'
+        src={post.coverUrl}
+        fallbackSrc='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
+        
+        alt={post.title}
       />
       </AspectRatio>
-      <Text py={4}fontSize='1.8em'fontWeight={'bold'} textAlign={'center'}>Classic Scones</Text>
+      <Text py={4}fontSize='1.8em'fontWeight={'bold'} textAlign={'center'}>{post.title}</Text>
 
       <Flex justifyContent={'space-between'}>
         <Box bg='red.100' borderRadius={'md'} p={2}>
@@ -21,7 +46,7 @@ const PostPage = () => {
         </Box>
          <Box bg='red.100' borderRadius={'md'} p={2} textAlign={'center'}>
           <Text fontSize={'sm'}>Author</Text>
-          <Text fontSize={'sm'}>username</Text>
+          <Text fontSize={'sm'}>{post.postAuthor}</Text>
         </Box>
 
       </Flex>

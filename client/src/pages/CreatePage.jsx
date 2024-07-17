@@ -1,15 +1,14 @@
-import { Flex,Input,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Button, Editable,
+import { Flex,Select , Input,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Button, Editable,
   EditableInput,
   EditableTextarea,
   EditablePreview, } from "@chakra-ui/react"
 import { Navigate, useParams } from 'react-router-dom';
 import { useRef, useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ADD_POST } from '../utils/mutations';
-import { QUERY_POSTS, QUERY_ME } from '../utils/queries';
+import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from '../utils/queries';
 
 import usePreviewImg from '../hooks/usePreviewImg';
-
 
 import Auth from '../utils/auth';
 
@@ -20,6 +19,9 @@ const CreatePage = () => {
   if (!Auth.loggedIn() ) {
     return <Navigate to="/" />;
   }
+
+  const { loading: loadingTag, data: dataTag } = useQuery(QUERY_TAGS);
+  const tags = dataTag?.tags || [];
 
   const fileRef = useRef(null);
   const {handleImageChange, imgUrl}= usePreviewImg();
@@ -91,6 +93,11 @@ const CreatePage = () => {
 
 
       <Button type="submit" onClick={handleFormSubmit}>Submit</Button>
+
+
+      <Select placeholder='Select option'>
+        {tags && tags.map((tag)=>(<option key={tag._id} value={tag.tagText}>{tag.tagText}</option>))}
+      </Select>
 
 
      </Container>

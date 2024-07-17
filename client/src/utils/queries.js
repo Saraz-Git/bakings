@@ -11,6 +11,7 @@ export const QUERY_USER = gql`
       posts {
         _id
         title
+        coverUrl
         createdAt
       }
     }
@@ -25,6 +26,7 @@ export const QUERY_TAGS = gql`
       posts {
         _id
         title
+        coverUrl
         createdAt
       }
     }
@@ -37,6 +39,7 @@ export const QUERY_POSTS = gql`
       _id
       title
       postAuthor
+      coverUrl
       createdAt
     }
   }
@@ -47,6 +50,7 @@ export const QUERY_SINGLE_POST = gql`
     post(postId: $postId) {
       _id
       title
+      coverUrl
       postAuthor
       createdAt
       comments {
@@ -70,6 +74,7 @@ export const QUERY_ME = gql`
       posts {
         _id
         title
+        coverUrl
         postAuthor
         createdAt
       }
