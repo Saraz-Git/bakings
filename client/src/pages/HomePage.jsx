@@ -1,4 +1,5 @@
-import { Container,Input,Grid, Center, Button, LinkBox } from '@chakra-ui/react';
+import { Container,Input,Grid, Center, Button, LinkBox,InputGroup,InputLeftElement } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 import { useQuery } from '@apollo/client';
 import { QUERY_TAGS } from '../utils/queries';
 import { Link as RouterLink } from "react-router-dom";
@@ -8,7 +9,13 @@ const HomePage = () => {
   const tags = data?.tags || [];
   return (
     <Container pb={12}>
-      <Input my={'4'}placeholder='Search' />
+     
+      <InputGroup  my={'4'}>
+        <InputLeftElement pointerEvents='none'>
+          <SearchIcon color='gray.300' />
+        </InputLeftElement>
+        <Input focusBorderColor='orange.400' type='tel' placeholder='Search' />
+      </InputGroup>
 
       <Grid templateColumns='repeat(3, 2fr)' gap={6}>
         

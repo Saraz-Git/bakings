@@ -51,7 +51,8 @@ const UpdatePage = () => {
     console.log(formState);
    };
 
-   
+  const location = useLocation();
+  const navigate = useNavigate();
     
 
   // submit form
@@ -76,8 +77,7 @@ const UpdatePage = () => {
   
 
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  
   return (
     <Container >
       <Stack

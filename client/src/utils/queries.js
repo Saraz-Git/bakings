@@ -53,7 +53,9 @@ export const QUERY_POSTS = gql`
     posts {
       _id
       title
-      postAuthor
+      postAuthor{
+       _id
+      }
       coverUrl
       createdAt
     }
@@ -92,7 +94,9 @@ export const QUERY_ME = gql`
         _id
         title
         coverUrl
-        
+        postAuthor{
+         _id
+        } 
         createdAt
       }
     }

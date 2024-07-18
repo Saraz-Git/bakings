@@ -16,6 +16,7 @@ const postSchema = new Schema({
 
     coverUrl: {
         type: String,
+        required: 'You need to upload a cover image!',
     },
     ingredients: [
         {

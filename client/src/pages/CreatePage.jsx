@@ -2,16 +2,17 @@ import { Flex,Select , Input,Box,AspectRatio,Container,Image,Table,TableContaine
   EditableInput,
   EditableTextarea,
   EditablePreview, } from "@chakra-ui/react"
-import { Navigate, useParams } from 'react-router-dom';
+import AddIngredientForm from '../components/AddIngredientsForm';
+import AddStepForm from '../components/AddStepForm';
+import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ADD_POST } from '../utils/mutations';
+import { ADD_POST, UPDATE_TAG } from '../utils/mutations';
 import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from '../utils/queries';
 
 import usePreviewImg from '../hooks/usePreviewImg';
 
 import Auth from '../utils/auth';
-
 
 
 
@@ -30,8 +31,9 @@ const CreatePage = () => {
   const [title, setTitle] = useState('');
   // const [formState, setFormState] = useState({ title: '' });
 
-  const [addPost, { error }] = useMutation
-  (ADD_POST, {
+  const [postTags, setPostTags] = useState([]);
+
+  const [addPost, { error }] = useMutation(ADD_POST, {
     refetchQueries: [
       QUERY_POSTS,
       'getPosts',
@@ -39,6 +41,8 @@ const CreatePage = () => {
       'me'
     ]
   });
+
+  const [updateTag, {error: updateTagError}]= useMutation(UPDATE_TAG);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,8 +54,17 @@ const CreatePage = () => {
     if (name === 'title') {
       setTitle(value);    
     }
+
+    if(name === 'tag'){
+      if(postTags.length<3 && !postTags.includes(value)){
+        postTags.push(value);
+      setPostTags(postTags);}    
+    }
   }
- 
+
+//  console.log(postTags);
+
+   const navigate = useNavigate();
 
    const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -59,8 +72,22 @@ const CreatePage = () => {
     try {
       const { data } = await addPost({
         variables: {title: title, coverUrl: imgUrl},
-      });   
-      console.log(data);  
+      });
+      
+      const newPost = data?.addPost;  
+
+      if(postTags){
+
+        postTags.map(async(postTag)=>(
+          await updateTag({
+        variables: {tagId: postTag, postId: newPost._id},
+        })
+        )) 
+        }
+
+        
+        navigate('/me');
+
     } catch (err) {
       console.error(err);
     }
@@ -89,15 +116,29 @@ const CreatePage = () => {
         <EditablePreview />
         <EditableInput name='title' onChange={handleChange} />
       </Editable>
-      <Text>Author: {Auth.getProfile().data.username}</Text>
+      {/* <Text>Author: {Auth.getProfile().data.username}</Text> */}
 
+       
+       
 
-      <Button type="submit" onClick={handleFormSubmit}>Submit</Button>
-
-
-      <Select placeholder='Select option'>
-        {tags && tags.map((tag)=>(<option key={tag._id} value={tag.tagText}>{tag.tagText}</option>))}
+       <Select name='tag' onChange={handleChange} placeholder='Select up to 3 tags'>
+        {tags && tags.map((tag)=>(<option key={tag._id} value={tag._id}>{tag.tagText}</option>))}
       </Select>
+
+      
+      <AddIngredientForm/>
+      <AddStepForm/>
+
+      <Editable p={2} defaultValue='Add Note'>
+        <EditablePreview />
+        <EditableTextarea />
+      </Editable>
+
+
+      <Button display={'block'}type="submit" onClick={handleFormSubmit}>Submit</Button>
+
+
+     
 
 
      </Container>

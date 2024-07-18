@@ -1,4 +1,4 @@
-import { Container , VStack} from '@chakra-ui/react';
+import { Container , Text} from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
 import { Link as RouterLink } from "react-router-dom";
 import PostList from "../components/PostList";
@@ -10,14 +10,15 @@ import { QUERY_TAG } from '../utils/queries';
 const ListPage = () => {
   const {loading, data}= useQuery(QUERY_TAG, {variables: { tagId: useParams().tagId }});
   const tag = data?.tag||{};
-  console.log(tag.posts);
+  // console.log(tag.posts);
 
 
 
 
 
   return (
-    <Container py={12}>
+    <Container py={6}>
+      <Text fontSize={'lg'}>Results under "{tag.tagText}" :</Text>
       
       {tag.posts && <PostList posts={tag.posts}/>}
 
