@@ -9,13 +9,13 @@ const resolvers = {
         },
         tag: async (_, { tagId }) => {
 
-            return Tag.findOne({ _id: tagId }).populate('posts');
+            return Tag.findById({ _id: tagId }).populate('posts');
         },
         users: async () => {
             return User.find().populate('posts');
         },
         user: async (parent, { userId }) => {
-            return User.findOne({ _id: userId }).populate('posts');
+            return User.findById({ _id: userId }).populate('posts');
         },
         posts: async (parent, { username }) => {
             const params = username ? { username } : {};
@@ -55,8 +55,6 @@ const resolvers = {
 
             return { token, user };
         },
-
-
         updateUser: async (_, { id, username, password, bio, profileUrl }) => {
             const user = await User.findOne({ _id: id });
             if (profileUrl) {
@@ -87,7 +85,13 @@ const resolvers = {
                 { new: true }
             );
         },
-
+        updateTag: async (_, { tagId, postId }, context) => {
+            await Tag.findOneAndUpdate(
+                { _id: tagId },
+                { $addToSet: { posts: postId } },
+                { new: true }
+            );
+        },
 
         addPost: async (parent, { title, coverUrl }, context) => {
             if (context.user) {

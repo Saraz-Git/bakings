@@ -1,8 +1,10 @@
-import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner } from "@chakra-ui/react"
+import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner, HStack } from "@chakra-ui/react"
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery } from '@apollo/client';
 import { QUERY_SINGLE_POST, QUERY_USER } from '../utils/queries';
+import CommentList from '../components/CommentList';
+import CommentForm from '../components/CommentForm';
 
 const PostPage = () => {
    const { postId } = useParams();
@@ -29,7 +31,7 @@ const PostPage = () => {
   }
 
   return (
-    <Container  py={12}>
+    <Container py={12}>
       <AspectRatio ratio={3 / 2}>
         <Image
         w={'full'}
@@ -92,11 +94,17 @@ const PostPage = () => {
       
       
       <Text fontWeight={'semibold'}  mt={2}>Step 1</Text>
-      <Flex justifyContent={'space-between'}>
-        <Box w='100px' h='100px' bg='tomato'></Box>
-        <Box w='100px' h='100px' bg='tomato'></Box>
+
+      <Flex direction={{ base: 'column', md: 'row' }}>
+       
+        <Image className='stepImg' src='https://res.cloudinary.com/dkeswd23y/image/upload/v1721106409/jc8459mxscxxeujoqyaa.webp' alt='alt' objectFit='cover' />
+        
+        <Text bg='gray.200'>1234sknkjerqlgk12341234sknkjerqlgk12341234sknkjerqlgk1234</Text>
         
       </Flex>
+      
+
+
       <AspectRatio ratio={3 / 2}>
         <Image
         w={'full'}
@@ -139,6 +147,10 @@ const PostPage = () => {
       <Text fontSize='sm'>This bread is moist, so it will keep for just two or three days at room temperature. Store it in the refrigerator for five to seven days, or in the freezer for up to three months or so. I like to slice the bread before freezing and defrost individual slices, either by letting them rest at room temperature or lightly toasting them.</Text>
      
       <Text mt={"200px"}  fontSize='1.2em' fontWeight={'bold'}>Reviews</Text>
+
+
+      <CommentList comments={post.comments} />
+      <CommentForm postId={post._id}/>
 
     </Container>
   )

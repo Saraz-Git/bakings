@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Text ,Link, Container} from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Text ,Link, Container,Tooltip} from "@chakra-ui/react"
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
@@ -43,20 +43,23 @@ const ProfilePage = () => {
             </Flex>
             <Flex gap={4}>
 
+              {Auth.getProfile().data._id !== user._id && 
               <Link className='zoom'>
                 <IoMdHeart size={24}/> 
               </Link>
-
+              }
 
               {Auth.getProfile().data._id=== user._id &&
+              <Tooltip hasArrow placement='top' label='Edit Profile' bg='gray.200' color='gray.600'>
               <Link as={RouterLink} to={"/me/update"} className='zoom'>
                 <BiSolidEditAlt size={24} />
-              </Link>}
+              </Link></Tooltip>}
               
               {Auth.getProfile().data._id=== user._id &&
+              <Tooltip hasArrow placement='top' label='Create Post' bg='gray.200' color='gray.600'>
               <Link as={RouterLink} to={"/me/create"} className='zoom'>
                 <BsPlusSquareDotted size={22}/>
-              </Link>}
+              </Link></Tooltip>}
               
               
               

@@ -4,9 +4,6 @@ import {Card,CardBody,Heading, Text, Link, Stack,Image, CardFooter,AspectRatio,B
 
 const PostList = ({posts}) => {
 
-
-  console.log(posts);
-
 if (!posts.length) {
     return <Box>No posts yet</Box>;
   }
@@ -30,6 +27,7 @@ if (!posts.length) {
         
       
         <Image
+        className='cardImg'
          w='600px'
          objectFit='cover'
         //  maxW={{ base: '100%', sm: '250px' }}

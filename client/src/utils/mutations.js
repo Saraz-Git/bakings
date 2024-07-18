@@ -38,12 +38,27 @@ mutation updateUser($id: ID!, $username: String, $password: String, $bio: String
 }
 `;
 
+export const UPDATE_TAG = gql`
+mutation updateTag ($tagId: ID!, $postId: ID!){
+  updateTag(tagId: $tagId, postId: $postId){
+      _id
+      tagText
+      posts{
+        _id
+        title
+      }
+  }
+}
+`;
+
 export const ADD_POST = gql`
   mutation addPost($title: String!, $coverUrl: String) {
     addPost(title: $title, coverUrl: $coverUrl) {
       _id
       title
-      postAuthor
+      postAuthor{
+       _id
+      }
       coverUrl
       createdAt
       comments {
@@ -59,7 +74,9 @@ export const ADD_COMMENT = gql`
     addComment(postId: $postId, commentText: $commentText) {
       _id
       title
-      postAuthor
+      postAuthor{
+       _id
+      }
       createdAt
       comments {
         _id
