@@ -69,6 +69,21 @@ export const ADD_POST = gql`
   }
 `;
 
+export const ADD_COLLECTION = gql`
+  mutation addCollection($postId:ID!  $userId: ID){
+    addCollection(postId: $postId,  userId: $userId){
+     _id
+     username
+     collections {
+     _id
+     title
+     coverUrl
+     }
+
+  }
+}
+`
+
 export const ADD_COMMENT = gql`
   mutation addComment($postId: ID!, $commentText: String!) {
     addComment(postId: $postId, commentText: $commentText) {

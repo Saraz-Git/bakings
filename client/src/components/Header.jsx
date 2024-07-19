@@ -18,7 +18,7 @@ const Header = () => {
       <Flex gap={'4'}>
         {Auth.loggedIn() ? (
           <>
-            <BsStarFill className='zoom' size={24}/>
+            <Link as={RouterLink} to={"/me/collection"} ><BsStarFill className='zoom' size={24}/></Link>
             <Link as={RouterLink} to={"/me"} ><BsPersonFill className='zoom' size={24} /> </Link>
             <RiLogoutBoxRLine className='zoom' size={24} onClick={logout}/>
           </>

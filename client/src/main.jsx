@@ -16,6 +16,7 @@ import PostPage from './pages/PostPage.jsx';
 import UpdatePage from './pages/UpdatePage.jsx';
 import ListPage from './pages/ListPage.jsx';
 import CreatePage from './pages/CreatePage.jsx';
+import CollectionPage from './pages/CollectionPage.jsx';
 
 const styles ={
   global:(props)=>({
@@ -70,6 +71,9 @@ const router = createBrowserRouter([
       },{
         path: '/me/create',
         element: <CreatePage/>
+      },{
+        path: '/me/collection',
+        element: <CollectionPage/>
       },{
         path: '/tags/:tagId',
         element: <ListPage/>

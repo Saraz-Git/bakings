@@ -34,6 +34,24 @@ const userSchema = new Schema({
             ref: 'Post',
         },
     ],
+    collections: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Post',
+        },
+    ],
+    following: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
+    followers: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 });
 
 userSchema.pre('save', async function (next) {

@@ -1,10 +1,11 @@
-import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner, HStack } from "@chakra-ui/react"
+import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner, HStack, Button } from "@chakra-ui/react"
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery } from '@apollo/client';
 import { QUERY_SINGLE_POST, QUERY_USER } from '../utils/queries';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
+import Auth from '../utils/auth';
 
 const PostPage = () => {
    const { postId } = useParams();
@@ -18,6 +19,9 @@ const PostPage = () => {
   console.log(post.postAuthor?._id);
   const {loading: loadingUser, data: dataUser}= useQuery(QUERY_USER,{variables: { userId: post.postAuthor?._id }});
   const user = dataUser?.user || '';
+
+
+  const handleCollect = ()=>(console.log("test"));
 
   if(loading){
     return  <Spinner
@@ -146,6 +150,11 @@ const PostPage = () => {
       <Text mt={8}  fontSize='1.2em' fontWeight={'bold'}>Notes</Text>
       <Text fontSize='sm'>This bread is moist, so it will keep for just two or three days at room temperature. Store it in the refrigerator for five to seven days, or in the freezer for up to three months or so. I like to slice the bread before freezing and defrost individual slices, either by letting them rest at room temperature or lightly toasting them.</Text>
      
+
+      {Auth.loggedIn() && post.postAuthor !== Auth.getProfile().data._id && 
+       <Button onClick={handleCollect}>Collect this post</Button> }
+      
+      
       <Text mt={"200px"}  fontSize='1.2em' fontWeight={'bold'}>Reviews</Text>
 
 

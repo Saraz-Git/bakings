@@ -85,6 +85,25 @@ const resolvers = {
                 { new: true }
             );
         },
+        followUser: async (_, { followerId, followingId }) => {
+            const follower = await User.findById({ _id: followerId });
+            const following = await User.findById({ _id: followingId });
+
+            if (!follower || !following) {
+                throw new Error('User not found');
+            }
+            
+            await User.findOneAndUpdate(
+                { _id: followerId },
+                { $addToSet: { following: followingId } },
+                { new: true }
+            );
+            await User.findOneAndUpdate(
+                { _id: followingId },
+                { $addToSet: { followers: followerId } },
+                { new: true }
+            );
+        },
         updateTag: async (_, { tagId, postId }, context) => {
             await Tag.findOneAndUpdate(
                 { _id: tagId },
@@ -146,6 +165,22 @@ const resolvers = {
         //     }
         //     throw AuthenticationError;
         // },
+        addCollection: async (parent, { postId, userId }, context) => {
+
+
+            await User.findOneAndUpdate(
+                { _id: userId },
+                { $addToSet: { collections: postId } },
+                { new: true }
+            );
+
+            await Post.findOneAndUpdate(
+                { _id: postId },
+                { $addToSet: { collectedBy: userId } },
+                { new: true }
+            );
+
+        },
         removePost: async (parent, { postId }, context) => {
             if (context.user) {
                 const post = await Post.findOneAndDelete({

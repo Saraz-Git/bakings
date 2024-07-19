@@ -29,6 +29,8 @@
 .thumbnail{
     height: 100px;
     width: 100px;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 .stepImg {
@@ -41,4 +43,6 @@
 .cardImg {
     max-height: 250px;
     max-width: 250px;
+    object-fit: cover;
+    flex-shrink: 0;
 }

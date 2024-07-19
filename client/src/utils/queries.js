@@ -14,6 +14,11 @@ export const QUERY_USER = gql`
         coverUrl
         createdAt
       }
+      collections {
+        _id
+        title
+        coverUrl
+      }
     }
   }
 `;

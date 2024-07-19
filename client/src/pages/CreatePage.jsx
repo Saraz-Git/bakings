@@ -1,4 +1,4 @@
-import { Flex,Select , Input,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Button, Editable,
+import { Flex,Select , Input,Box,useColorModeValue,SimpleGrid,Stack,CheckboxGroup ,Checkbox, AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Button, Editable,
   EditableInput,
   EditableTextarea,
   EditablePreview, } from "@chakra-ui/react"
@@ -32,6 +32,7 @@ const CreatePage = () => {
   // const [formState, setFormState] = useState({ title: '' });
 
   const [postTags, setPostTags] = useState([]);
+  
 
   const [addPost, { error }] = useMutation(ADD_POST, {
     refetchQueries: [
@@ -56,11 +57,23 @@ const CreatePage = () => {
     }
 
     if(name === 'tag'){
-      if(postTags.length<3 && !postTags.includes(value)){
+      if(postTags.includes(value)){
+        const index = postTags.indexOf(value);
+        const newTags=  postTags.splice(index, 1);
+        setPostTags(newTags);   
+      }else if(!postTags.includes(value)){
         postTags.push(value);
-      setPostTags(postTags);}    
+       
+        } 
+
+        setPostTags(postTags);
+        
+        console.log(postTags.length) ; 
     }
   }
+
+  
+  
 
 //  console.log(postTags);
 
@@ -84,7 +97,6 @@ const CreatePage = () => {
         })
         )) 
         }
-
         
         navigate('/me');
 
@@ -112,7 +124,7 @@ const CreatePage = () => {
       </AspectRatio>
       <Input type='file' hidden ref={fileRef} onChange={handleImageChange}/>
       
-      <Editable my={4} textAlign={'center'} fontSize='1.8em'fontWeight={'bold'}  defaultValue='Post Title' >
+      <Editable  my={4} textAlign={'center'} fontSize='1.8em'fontWeight={'bold'}  defaultValue='Post Title' >
         <EditablePreview />
         <EditableInput name='title' onChange={handleChange} />
       </Editable>
@@ -121,9 +133,23 @@ const CreatePage = () => {
        
        
 
-       <Select name='tag' onChange={handleChange} placeholder='Select up to 3 tags'>
+       {/* <Select name='tag' onChange={handleChange} placeholder='Select up to 3 tags'>
         {tags && tags.map((tag)=>(<option key={tag._id} value={tag._id}>{tag.tagText}</option>))}
-      </Select>
+      </Select> */}
+
+      <Box
+          border='1px'
+          borderColor='gray.200'
+          bg={useColorModeValue('white', 'gray.700')}
+          p={2}
+          my={2}>
+
+      <CheckboxGroup colorScheme='orange'>
+        <SimpleGrid columns={6} spacing={4}>
+          {tags && tags.map((tag)=>(<Checkbox key={tag._id} name='tag' onChange={handleChange} value={tag._id}>{tag.tagText}</Checkbox>))}
+        </SimpleGrid>
+      </CheckboxGroup>
+      </Box>
 
       
       <AddIngredientForm/>

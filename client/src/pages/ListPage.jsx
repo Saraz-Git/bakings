@@ -18,7 +18,7 @@ const ListPage = () => {
 
   return (
     <Container py={6}>
-      <Text fontSize={'lg'}>Results under "{tag.tagText}" :</Text>
+      <Text fontSize={'lg'}>Results under {tag.tagText} :</Text>
       
       {tag.posts && <PostList posts={tag.posts}/>}
 
