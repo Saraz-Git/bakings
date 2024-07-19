@@ -7,6 +7,9 @@ const typeDefs = `
     bio: String
     profileUrl: String
     posts: [Post]
+    collections: [Post]
+    following: [User]
+    followers:[User]
   }
 
   type Post {
@@ -16,6 +19,7 @@ const typeDefs = `
     postAuthor: User
     createdAt: String
     comments: [Comment]
+    collectedBy: [User]
   }
 
   type Tag {
@@ -51,7 +55,10 @@ const typeDefs = `
     updateUser(id: ID!, username: String, password: String, bio: String, profileUrl:String): User
     updateTag(tagId: ID!, postId: ID!): Tag
     login(email: String!, password: String!): Auth
+    followUser(followerId: ID!, followingId: ID!): User
+    unfollowUser(followerId: ID!, followingId: ID!): User
     addPost(title: String!, coverUrl: String): Post
+    addCollection(postId:ID!, userId:ID):User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post

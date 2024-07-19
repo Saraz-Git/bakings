@@ -1,6 +1,6 @@
-
-
 import {Card,CardBody,Heading, Text, Link, Stack,Image, CardFooter,AspectRatio,Box, Flex} from '@chakra-ui/react';
+// import { useQuery } from '@apollo/client';
+// import { QUERY_SINGLE_POST} from '../utils/queries';
 
 const PostList = ({posts}) => {
 

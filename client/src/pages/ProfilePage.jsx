@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Flex, Text ,Link, Container,Tooltip} from "@chakra-ui/react"
+import { IconContext } from "react-icons";
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
@@ -29,6 +30,11 @@ const ProfilePage = () => {
     return <Navigate to="/" />;
   }
 
+  // let liked = true;
+  const handleFollow = ()=>(console.log('test')
+    );
+  // console.log(!liked);
+
   return (
 
      <Container pb={12}>
@@ -44,9 +50,14 @@ const ProfilePage = () => {
             <Flex gap={4}>
 
               {Auth.getProfile().data._id !== user._id && 
-              <Link className='zoom'>
-                <IoMdHeart size={24}/> 
-              </Link>
+
+              <IconContext.Provider value={{ color: 'crimson'}}>
+                <Box className='zoom'>
+                  <IoMdHeart onClick={handleFollow} size={24}/> 
+                </Box>
+              </IconContext.Provider>
+
+              
               }
 
               {Auth.getProfile().data._id=== user._id &&
