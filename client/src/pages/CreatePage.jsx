@@ -1,15 +1,21 @@
 import { Flex,Select , Input,Box,useColorModeValue,SimpleGrid,Stack,CheckboxGroup ,Checkbox, AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Button, Editable,
   EditableInput,
-  EditableTextarea,
-  EditablePreview, } from "@chakra-ui/react"
+  EditablePreview, } from "@chakra-ui/react";
+  import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import AddIngredientForm from '../components/AddIngredientsForm';
-import AddStepForm from '../components/AddStepForm';
 import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_POST, UPDATE_TAG } from '../utils/mutations';
 import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from '../utils/queries';
-import QuillEditor from '../components/QuillEditor';
 
 import usePreviewImg from '../hooks/usePreviewImg';
 
@@ -18,6 +24,26 @@ import Auth from '../utils/auth';
 
 
 const CreatePage = () => {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('Click to Enter Post Title');
+  const [detail, setDetail]=useState('');
+
+  
+ 
+  console.log(detail);
+  const toolbarOptions = [
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+  ['bold', 'italic', 'underline'],        
+  ['image'],
+  [{ 'indent': '-1'}, { 'indent': '+1' }],
+  [{ 'header': 1 }, { 'header': 2 }],               
+  [{ 'align': [] }],
+  ['clean'] 
+  ];
+  const modules = {
+  toolbar: toolbarOptions
+};
+
   if (!Auth.loggedIn() ) {
     return <Navigate to="/" />;
   }
@@ -29,7 +55,7 @@ const CreatePage = () => {
   const {handleImageChange, imgUrl}= usePreviewImg();
   // console.log(imgUrl);
 
-  const [title, setTitle] = useState('');
+  
   // const [formState, setFormState] = useState({ title: '' });
 
   const [postTags, setPostTags] = useState([]);
@@ -72,23 +98,21 @@ const CreatePage = () => {
         console.log(postTags.length) ; 
     }
   }
-
   
-  
-
-//  console.log(postTags);
-
-   const navigate = useNavigate();
+//  console.log(postTags); 
 
    const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log(detail);
+    console.log(typeof(detail));
 
     try {
       const { data } = await addPost({
-        variables: {title: title, coverUrl: imgUrl},
+        variables: {title: title, coverUrl: imgUrl, detail: detail},
       });
       
       const newPost = data?.addPost;  
+      console.log(newPost);
 
       if(postTags){
 
@@ -125,12 +149,63 @@ const CreatePage = () => {
       </AspectRatio>
       <Input type='file' hidden ref={fileRef} onChange={handleImageChange}/>
       
-      <Editable  my={4} textAlign={'center'} fontSize='1.8em'fontWeight={'bold'}  defaultValue='Post Title' >
+      <Editable  my={4} textAlign={'center'} fontSize='1.8em'fontWeight={'bold'}  defaultValue={title}>
         <EditablePreview />
         <EditableInput name='title' onChange={handleChange} />
       </Editable>
-      {/* <Text>Author: {Auth.getProfile().data.username}</Text> */}
+      
+      <Accordion defaultIndex={[0]} allowMultiple>
+  <AccordionItem>
+    <h2>
+      <AccordionButton>
+        <Box as='span' flex='1' fontWeight={'bold'} textAlign='left'>
+          Choose Categories
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel pb={4}>
+      <Box
+          bg={useColorModeValue('white', 'gray.700')}
+          my={2}>
 
+      <CheckboxGroup colorScheme='orange'>
+        <SimpleGrid columns={6} spacing={4}>
+          {tags && tags.map((tag)=>(<Checkbox key={tag._id} name='tag' onChange={handleChange} value={tag._id}>{tag.tagText}</Checkbox>))}
+        </SimpleGrid>
+      </CheckboxGroup>
+      </Box>
+    </AccordionPanel>
+  </AccordionItem>
+
+  <AccordionItem>
+    <h2>
+      <AccordionButton>
+        <Box as='span' flex='1' fontWeight={'bold'} textAlign='left'>
+          List Ingredients
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel px={1} pb={4}>
+      <AddIngredientForm/>
+    </AccordionPanel>
+  </AccordionItem>
+
+  <AccordionItem>
+    <h2>
+      <AccordionButton>
+        <Box as='span' flex='1' fontWeight={'bold'}textAlign='left'>
+          Step Instructions
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel px={1}pb={4}>
+      <ReactQuill theme="snow" modules={modules} value={detail} onChange={setDetail} />
+    </AccordionPanel>
+  </AccordionItem>
+</Accordion>
        
        
 
@@ -138,7 +213,7 @@ const CreatePage = () => {
         {tags && tags.map((tag)=>(<option key={tag._id} value={tag._id}>{tag.tagText}</option>))}
       </Select> */}
 
-      <Box
+      {/* <Box
           border='1px'
           borderColor='gray.200'
           bg={useColorModeValue('white', 'gray.700')}
@@ -150,15 +225,18 @@ const CreatePage = () => {
           {tags && tags.map((tag)=>(<Checkbox key={tag._id} name='tag' onChange={handleChange} value={tag._id}>{tag.tagText}</Checkbox>))}
         </SimpleGrid>
       </CheckboxGroup>
-      </Box>
+      </Box> */}
 
       
-      <AddIngredientForm/>
-      {/* <AddStepForm/> */}
+      
+      
 
-      <QuillEditor/>
+     
 
-      <Button display={'block'}type="submit" onClick={handleFormSubmit}>Submit</Button>
+      
+      
+
+      <Button mx={'auto'}my={4}display={'block'}type="submit" onClick={handleFormSubmit}>Submit</Button>
 
 
      

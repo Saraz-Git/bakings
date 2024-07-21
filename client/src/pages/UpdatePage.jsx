@@ -38,7 +38,6 @@ const UpdatePage = () => {
   const {data: currentUser} = useQuery(QUERY_ME);
   const user= currentUser?.me||{};
 
-  console.log(user.bio);
 
   // console.log(Auth.getProfile().data);
  

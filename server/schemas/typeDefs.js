@@ -17,6 +17,7 @@ const typeDefs = `
     title: String
     coverUrl: String
     postAuthor: User
+    detail: String
     createdAt: String
     comments: [Comment]
     collectedBy: [User]
@@ -57,7 +58,7 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     followUser(followerId: ID!, followingId: ID!): User
     unfollowUser(followerId: ID!, followingId: ID!): User
-    addPost(title: String!, coverUrl: String): Post
+    addPost(title: String!, coverUrl: String, detail: String): Post
     addCollection(postId:ID!, userId:ID):User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): Post

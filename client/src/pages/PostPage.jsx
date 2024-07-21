@@ -11,7 +11,8 @@ import { RiThumbUpLine} from "react-icons/ri";
 import { SlPrinter } from "react-icons/sl";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery , useMutation} from '@apollo/client';
@@ -20,8 +21,13 @@ import {ADD_COLLECTION} from '../utils/mutations';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
 import Auth from '../utils/auth';
+import { useEffect, useState } from "react";
 
 const PostPage = () => {
+  const [collected, setCollected]= useState(false); useEffect
+  useEffect(() => {
+    console.log(`Collected changed to: ${collected}`);
+  }, [collected]);
   const { postId } = useParams();
 
   const { loading, data } = useQuery(QUERY_SINGLE_POST, {
@@ -40,12 +46,13 @@ const PostPage = () => {
        await addCollection({
         variables: { postId: postId, userId: Auth.getProfile().data._id},
       });
+      setCollected(true);
 
     } catch (e) {
       console.error(e);
     }
     toast("Successfully collected the post!"); 
-    window.location.reload();
+    
   };
  
 
@@ -118,9 +125,15 @@ const PostPage = () => {
           </Tbody>
         </Table>
       </TableContainer>
+
       
-       
-      <Text mt={8}  fontSize='1.2em' fontWeight={'bold'}>Instructions</Text>
+      
+      <ReactQuill
+   value={post.detail}
+   readOnly={true}
+   theme={"bubble"}
+/>
+      {/* <Text mt={8}  fontSize='1.2em' fontWeight={'bold'}>Instructions</Text>
       
       
       <Text fontWeight={'semibold'}  mt={2}>Step 1</Text>
@@ -131,11 +144,11 @@ const PostPage = () => {
         
         <Text bg='gray.200'>1234sknkjerqlgk12341234sknkjerqlgk12341234sknkjerqlgk1234</Text>
         
-      </Flex>
+      </Flex> */}
       
 
 
-      <AspectRatio ratio={3 / 2}>
+      {/* <AspectRatio ratio={3 / 2}>
         <Image
         w={'full'}
         objectFit='cover'
@@ -175,7 +188,7 @@ const PostPage = () => {
       
       <Text mt={8}  fontSize='1.2em' fontWeight={'bold'}>Notes</Text>
       <Text fontSize='sm'>This bread is moist, so it will keep for just two or three days at room temperature. Store it in the refrigerator for five to seven days, or in the freezer for up to three months or so. I like to slice the bread before freezing and defrost individual slices, either by letting them rest at room temperature or lightly toasting them.</Text>
-     
+      */}
       <ToastContainer
           position="top-center"
           autoClose={3000}
