@@ -1,6 +1,7 @@
-import {Divider, Flex, Text,Link, useColorMode} from '@chakra-ui/react';
+import {Divider, Flex, Text,Link, useColorMode,Tooltip} from '@chakra-ui/react';
 import { BsStarFill,BsPersonFill,BsMoonFill} from "react-icons/bs";
 import { RiLoginBoxLine, RiLogoutBoxRLine} from "react-icons/ri";
+import { RxCookie } from "react-icons/rx";
 import { Link as RouterLink } from "react-router-dom";
 
 import Auth from '../utils/auth.js';
@@ -14,12 +15,15 @@ const Header = () => {
   return (
     <>
     <Flex w='100%'  h='60px' p='4' justifyContent={'space-between'}>
-      <Link fontWeight={'bold'} style={{ textDecoration: 'none' }} as={RouterLink} to='/'>Bakings</Link>
+      <Link fontWeight={'bold'} style={{ textDecoration: 'none' }} as={RouterLink} to='/'><Flex gap={1}>Bakings  <RxCookie size={22}/></Flex></Link>
+      
       <Flex gap={'4'}>
         {Auth.loggedIn() ? (
           <>
-            <Link as={RouterLink} to={"/me/collection"} ><BsStarFill className='zoom' size={24}/></Link>
-            <Link as={RouterLink} to={"/me"} ><BsPersonFill className='zoom' size={24} /> </Link>
+            <Tooltip hasArrow placement='top' label='See Collection' bg='gray.200' color='gray.600'>
+              <Link as={RouterLink} to={"/me/collection"} ><BsStarFill className='zoom' size={24}/></Link></Tooltip>
+            <Tooltip hasArrow placement='top' label='My Profile' bg='gray.200' color='gray.600'>
+            <Link as={RouterLink} to={"/me"} ><BsPersonFill className='zoom' size={24} /> </Link></Tooltip>
             <RiLogoutBoxRLine className='zoom' size={24} onClick={logout}/>
           </>
 

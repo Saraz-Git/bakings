@@ -15,6 +15,8 @@ import {
   Link,
   Container,
 } from '@chakra-ui/react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from "react-router-dom";
@@ -55,6 +57,7 @@ const SignupPage = () => {
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
+      toast("Error");
     }
   };
 
@@ -72,6 +75,15 @@ const SignupPage = () => {
           {/* <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool features ✌️
           </Text> */}
+          <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          closeOnClick
+          hideProgressBar={true}
+          theme="colored"
+          type="error"
+         />
+         
         </Stack>
         <Box
           border='1px'

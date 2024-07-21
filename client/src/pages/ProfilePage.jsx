@@ -1,27 +1,34 @@
-import { Avatar, Box, Button, Flex, Text ,Link, Container,Tooltip} from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Text ,Link, Container,Tooltip,Spinner} from "@chakra-ui/react"
 import { IconContext } from "react-icons";
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
 import PostList from "../components/PostList";
-
 import { Link as RouterLink } from "react-router-dom";
 
 import { Navigate, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
+import {FOLLOW_USER, UNFOLLOW_USER} from '../utils/mutations';
 
 import Auth from '../utils/auth';
+import { useState } from "react";
 
 
 const ProfilePage = () => {
+  let fill; 
+ 
   
   const { loading, data } = useQuery(useParams().userId ? QUERY_USER : QUERY_ME, {
     variables: { userId: useParams().userId },
   });
 
   const user = data?.me || data?.user || {};
-  
+
+  const [followUser, {error: error1}]= useMutation(FOLLOW_USER);
+  const [unfollowUser, {error: error2}]= useMutation(UNFOLLOW_USER);
+
+
   
   if (Auth.loggedIn() && Auth.getProfile().data._id === useParams().userId) {
     return <Navigate to="/me" />;
@@ -29,11 +36,51 @@ const ProfilePage = () => {
   if (!Auth.loggedIn() ) {
     return <Navigate to="/" />;
   }
+ 
 
-  // let liked = true;
-  const handleFollow = ()=>(console.log('test')
-    );
-  // console.log(!liked);
+  
+  const handleFollow = async(event)=>{
+    if(!isFollowing){
+      try{
+        await followUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
+        fill={ color: 'crimson'};  
+        isFollowing=!isFollowing;  
+           
+      }catch(e){
+      console.log(e);
+      }
+    }else{
+      try{
+        await unfollowUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
+        fill={ color: 'gray'};
+        isFollowing=!isFollowing; 
+            
+      }catch(e){
+      console.log(e);
+      }
+    }
+
+    window.location.reload();
+  };
+  
+
+  if(loading){
+    return  <Spinner
+             thickness='4px'
+             speed='0.65s'
+             emptyColor='gray.200'
+             color='orange.500'
+             size='xl'
+             m={12}
+             />
+  }
+  
+
+  const followers= user.followers;
+  const idArr= followers.map((follower)=>(follower._id));
+  let isFollowing= idArr.includes(Auth.getProfile().data._id);
+  if(isFollowing==true){fill={ color: 'crimson'};}else{fill={ color: 'gray'};}
+ 
 
   return (
 
@@ -51,7 +98,7 @@ const ProfilePage = () => {
 
               {Auth.getProfile().data._id !== user._id && 
 
-              <IconContext.Provider value={{ color: 'crimson'}}>
+              <IconContext.Provider value={fill}>
                 <Box className='zoom'>
                   <IoMdHeart onClick={handleFollow} size={24}/> 
                 </Box>
@@ -80,9 +127,9 @@ const ProfilePage = () => {
         </Flex>
         <Text >{user.bio}</Text>
         <Flex gap={2} alignItems={"center"} fontSize={'sm'}>
-					<Text color={"gray.400"}>200 followers</Text>
+					<Text id='followerText'color={"gray.400"}>{user.followers.length} followers</Text>
 					<Box w='1' h='1' bg={"gray.400"} borderRadius={"full"}></Box>
-					<Text  color={"gray.400"}>30 posts</Text>
+					<Text  color={"gray.400"}>{user.posts.length} posts</Text>
 		</Flex>
         
     </Box>

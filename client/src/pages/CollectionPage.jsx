@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import { Navigate } from 'react-router-dom';
 import Auth from '../utils/auth';
-import { Container } from "@chakra-ui/react";
+import { Container, Spinner,Text } from "@chakra-ui/react";
 
 const CollectionPage = () => {
   if (!Auth.loggedIn() ) {
@@ -16,9 +16,22 @@ const CollectionPage = () => {
 
   const user = data?.user || {};
 
+   if(loading){
+    return  <Spinner
+             thickness='4px'
+             speed='0.65s'
+             emptyColor='gray.200'
+             color='orange.500'
+             size='xl'
+             m={12}
+             />
+  }
+
   
   return (
-    <Container>
+    <Container py={6}>
+      <Text fontSize={'lg'}>Your collection: </Text>
+      
       {user.collections && <PostList posts={user.collections}/>}
 
 

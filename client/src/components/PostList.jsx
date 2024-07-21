@@ -1,8 +1,9 @@
-import {Card,CardBody,Heading, Text, Link, Stack,Image, CardFooter,AspectRatio,Box, Flex} from '@chakra-ui/react';
+import {Card,CardBody,Heading, Badge,Text, Link, Stack,Image, CardFooter,AspectRatio,Box, Flex} from '@chakra-ui/react';
 // import { useQuery } from '@apollo/client';
 // import { QUERY_SINGLE_POST} from '../utils/queries';
 
 const PostList = ({posts}) => {
+  console.log(posts);
 
 if (!posts.length) {
     return <Box>No posts yet</Box>;
@@ -39,13 +40,25 @@ if (!posts.length) {
       <Stack>
        <CardBody>
          <Heading size='md'>{post.title}</Heading> 
+
+         <Badge colorScheme='pink'>
+          1 Likes
+          </Badge>
+
+
+         {/* {post.collectedBy.length>0  &&
+          <Badge mx={1}colorScheme='purple'>
+          {post.collectedBy.length} collects
+          </Badge>
+         } */}
+         
+         
        </CardBody>
 
        <CardFooter>
      
-         <Text py='2'>
-          Caffè latte is a coffee beverage of Italian origin made with espresso
-          and steamed milk.
+         <Text fontSize={'xs'} py='2'>
+          {post.createdAt}
          </Text>
        </CardFooter>
       </Stack>

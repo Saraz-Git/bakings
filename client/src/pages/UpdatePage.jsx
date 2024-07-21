@@ -15,6 +15,8 @@ import {
   Container,
   Textarea,
 } from '@chakra-ui/react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 import { useRef, useState } from 'react';
@@ -68,6 +70,7 @@ const UpdatePage = () => {
      
     } catch (e) {
       console.error(e);
+      toast("Update failed"); 
     }
   }
 
@@ -88,6 +91,14 @@ const UpdatePage = () => {
         <Heading fontWeight="normal">
           Edit Profile
         </Heading>
+         <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          closeOnClick
+          hideProgressBar={true}
+          theme="colored"
+          type="error"
+         />
         <FormControl id="userName">
           
           <Stack direction={['column', 'row']} spacing={6}>
@@ -116,7 +127,7 @@ const UpdatePage = () => {
           <FormControl id="password" >
           <FormLabel>Password</FormLabel>
           <Input
-          isDisabled
+          
            name="password"
            onChange={handleChange}
             placeholder="password"

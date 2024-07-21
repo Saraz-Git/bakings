@@ -37,6 +37,30 @@ mutation updateUser($id: ID!, $username: String, $password: String, $bio: String
  }
 }
 `;
+export const FOLLOW_USER = gql`
+mutation followUser($followerId: ID!, $followingId: ID!){
+  followUser(followerId: $followerId, followingId: $followingId){
+    _id
+    username
+    followers{
+      _id
+      username
+    }
+  }
+}
+`;
+export const UNFOLLOW_USER = gql`
+mutation unfollowUser($followerId: ID!, $followingId: ID!){
+  unfollowUser(followerId: $followerId, followingId: $followingId){
+    _id
+    username
+    followers{
+      _id
+      username
+    }
+  }
+}
+`;
 
 export const UPDATE_TAG = gql`
 mutation updateTag ($tagId: ID!, $postId: ID!){
@@ -79,10 +103,9 @@ export const ADD_COLLECTION = gql`
      title
      coverUrl
      }
-
   }
 }
-`
+`;
 
 export const ADD_COMMENT = gql`
   mutation addComment($postId: ID!, $commentText: String!) {

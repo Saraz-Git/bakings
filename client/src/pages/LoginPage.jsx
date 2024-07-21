@@ -9,18 +9,21 @@ import {
   Text,
   useColorModeValue,
   Container,
-  Link
+  Link,
 } from '@chakra-ui/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
-
 import Auth from '../utils/auth';
 
 const LoginPage = () => {
+
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
+
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -35,15 +38,15 @@ const LoginPage = () => {
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+    
     try {
       const { data } = await login({
         variables: { ...formState },
       });
-
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
+      toast("Login Failed");   
     }
 
     // clear form values
@@ -65,7 +68,18 @@ const LoginPage = () => {
           {/* <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool features ✌️
           </Text> */}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          closeOnClick
+          hideProgressBar={true}
+          theme="colored"
+          type="error"
+         />
+         
         </Stack>
+
+
         <Box
           border='1px'
           borderColor='gray.200'
