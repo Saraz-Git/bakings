@@ -10,7 +10,7 @@ import { QUERY_TAG } from '../utils/queries';
 const ListPage = () => {
   const {loading, data}= useQuery(QUERY_TAG, {variables: { tagId: useParams().tagId }});
   const tag = data?.tag||{};
-  // console.log(tag.posts);
+  console.log(tag.posts);
 
 
 

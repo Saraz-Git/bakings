@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ADD_POST, UPDATE_TAG } from '../utils/mutations';
 import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from '../utils/queries';
+import QuillEditor from '../components/QuillEditor';
 
 import usePreviewImg from '../hooks/usePreviewImg';
 
@@ -153,13 +154,9 @@ const CreatePage = () => {
 
       
       <AddIngredientForm/>
-      <AddStepForm/>
+      {/* <AddStepForm/> */}
 
-      <Editable p={2} defaultValue='Add Note'>
-        <EditablePreview />
-        <EditableTextarea />
-      </Editable>
-
+      <QuillEditor/>
 
       <Button display={'block'}type="submit" onClick={handleFormSubmit}>Submit</Button>
 

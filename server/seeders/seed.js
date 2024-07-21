@@ -39,10 +39,9 @@ db.once('open', async () => {
             await tempUser.save();
 
             // randomly add a tag to each post
-            const tempTag = tags[Math.floor(Math.random() * tags.length)];
-            // reference post on tag(p) model
-            tempTag.posts.push(newPost._id);
-            await tempTag.save();
+            // const tempTag = tags[Math.floor(Math.random() * tags.length)];
+            // tempTag.posts.push(newPost._id);
+            // await tempTag.save();
         }
 
 

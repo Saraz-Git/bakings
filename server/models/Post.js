@@ -13,7 +13,6 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-
     coverUrl: {
         type: String,
         required: 'You need to upload a cover image!',
@@ -61,10 +60,12 @@ const postSchema = new Schema({
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
     },
-    collectedBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    collectedBy: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     comments: [
         {
             commentText: {

@@ -13,11 +13,30 @@ export const QUERY_USER = gql`
         title
         coverUrl
         createdAt
+        collectedBy{
+         _id
+        }
       }
       collections {
         _id
         title
         coverUrl
+        createdAt
+        postAuthor{
+        _id
+        username
+        collectedBy{
+         _id
+         }
+        }
+      }
+      followers{
+        _id
+        username
+      }
+      following{
+        _id
+        username
       }
     }
   }
@@ -48,6 +67,13 @@ export const QUERY_TAG = gql`
         title
         coverUrl
         createdAt
+        postAuthor{
+        _id
+        username
+        }
+        collectedBy{
+         _id
+        }
       }
     }
   }
@@ -63,6 +89,9 @@ export const QUERY_POSTS = gql`
       }
       coverUrl
       createdAt
+      collectedBy{
+      _id
+      }
     }
   }
 `;
@@ -75,6 +104,10 @@ export const QUERY_SINGLE_POST = gql`
       coverUrl
       postAuthor{
        _id
+       username
+      }
+      collectedBy{
+      _id
       }
       createdAt
       comments {
@@ -103,6 +136,9 @@ export const QUERY_ME = gql`
          _id
         } 
         createdAt
+      }
+      followers {
+        _id
       }
     }
   }

@@ -1,6 +1,7 @@
 const { User, Post, Tag } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 const cloudinary = require('../cloudinaryConfig');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
@@ -12,17 +13,17 @@ const resolvers = {
             return Tag.findById({ _id: tagId }).populate('posts');
         },
         users: async () => {
-            return User.find().populate('posts');
+            return User.find().populate('posts').populate('followers').populate('following').populate('collections');
         },
         user: async (parent, { userId }) => {
-            return User.findById({ _id: userId }).populate('posts');
+            return User.findById({ _id: userId }).populate('posts').populate('followers').populate('following').populate('collections');
         },
         posts: async (parent, { username }) => {
             const params = username ? { username } : {};
-            return Post.find(params).sort({ createdAt: -1 });
+            return Post.find(params).sort({ createdAt: -1 }).populate('collectedBy');
         },
         post: async (parent, { postId }) => {
-            return Post.findOne({ _id: postId });
+            return Post.findById({ _id: postId }).populate('postAuthor').populate('collectedBy');
         },
         me: async (parent, args, context) => {
             if (context.user) {
@@ -73,6 +74,10 @@ const resolvers = {
 
             }
 
+            if (password) {
+                password = await bcrypt.hash(password, 10);
+            }
+
             return await User.findOneAndUpdate(
                 { _id: id },
                 {
@@ -92,7 +97,7 @@ const resolvers = {
             if (!follower || !following) {
                 throw new Error('User not found');
             }
-            
+
             await User.findOneAndUpdate(
                 { _id: followerId },
                 { $addToSet: { following: followingId } },
@@ -104,6 +109,26 @@ const resolvers = {
                 { new: true }
             );
         },
+        unfollowUser: async (_, { followerId, followingId }) => {
+            const follower = await User.findById({ _id: followerId });
+            const following = await User.findById({ _id: followingId });
+
+            if (!follower || !following) {
+                throw new Error('User not found');
+            }
+
+            await User.findOneAndUpdate(
+                { _id: followerId },
+                { $pull: { following: followingId } },
+                { new: true }
+            );
+            await User.findOneAndUpdate(
+                { _id: followingId },
+                { $pull: { followers: followerId } },
+                { new: true }
+            );
+        },
+
         updateTag: async (_, { tagId, postId }, context) => {
             await Tag.findOneAndUpdate(
                 { _id: tagId },
@@ -166,20 +191,17 @@ const resolvers = {
         //     throw AuthenticationError;
         // },
         addCollection: async (parent, { postId, userId }, context) => {
-
-
             await User.findOneAndUpdate(
                 { _id: userId },
                 { $addToSet: { collections: postId } },
                 { new: true }
             );
-
-            await Post.findOneAndUpdate(
+            const post = await Post.findOneAndUpdate(
                 { _id: postId },
                 { $addToSet: { collectedBy: userId } },
                 { new: true }
             );
-
+            return post;
         },
         removePost: async (parent, { postId }, context) => {
             if (context.user) {
