@@ -137,7 +137,7 @@ const resolvers = {
             );
         },
 
-        addPost: async (parent, { title, coverUrl }, context) => {
+        addPost: async (parent, { title, coverUrl, detail }, context) => {
             if (context.user) {
                 cloudinary.config({
                     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -153,6 +153,7 @@ const resolvers = {
                 const post = await Post.create({
                     title,
                     coverUrl,
+                    detail,
                     postAuthor: context.user._id,
                 });
 

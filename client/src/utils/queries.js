@@ -12,6 +12,7 @@ export const QUERY_USER = gql`
         _id
         title
         coverUrl
+        detail
         createdAt
         collectedBy{
          _id
@@ -21,13 +22,11 @@ export const QUERY_USER = gql`
         _id
         title
         coverUrl
+        detail
         createdAt
         postAuthor{
         _id
         username
-        collectedBy{
-         _id
-         }
         }
       }
       followers{
@@ -102,6 +101,7 @@ export const QUERY_SINGLE_POST = gql`
       _id
       title
       coverUrl
+      detail
       postAuthor{
        _id
        username
@@ -136,6 +136,17 @@ export const QUERY_ME = gql`
          _id
         } 
         createdAt
+      }
+      collections {
+        _id
+        title
+        coverUrl
+        detail
+        createdAt
+        postAuthor{
+        _id
+        username
+        }
       }
       followers {
         _id

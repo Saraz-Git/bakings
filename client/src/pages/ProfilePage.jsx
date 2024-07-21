@@ -12,10 +12,12 @@ import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import {FOLLOW_USER, UNFOLLOW_USER} from '../utils/mutations';
 
 import Auth from '../utils/auth';
-import { useState } from "react";
+import {useState} from "react";
 
 
 const ProfilePage = () => {
+  
+  // const [pageKey, setPageKey] = useState(Date.now());
   let fill; 
  
   
@@ -40,6 +42,7 @@ const ProfilePage = () => {
 
   
   const handleFollow = async(event)=>{
+    event.preventDefault();
     if(!isFollowing){
       try{
         await followUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
@@ -53,14 +56,13 @@ const ProfilePage = () => {
       try{
         await unfollowUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
         fill={ color: 'gray'};
-        isFollowing=!isFollowing; 
-            
+        isFollowing=!isFollowing;       
       }catch(e){
       console.log(e);
       }
     }
-
-    window.location.reload();
+      // setPageKey(Date.now()); 
+      window.location.reload();
   };
   
 

@@ -76,14 +76,15 @@ mutation updateTag ($tagId: ID!, $postId: ID!){
 `;
 
 export const ADD_POST = gql`
-  mutation addPost($title: String!, $coverUrl: String) {
-    addPost(title: $title, coverUrl: $coverUrl) {
+  mutation addPost($title: String!, $coverUrl: String, $detail: String) {
+    addPost(title: $title, coverUrl: $coverUrl, detail: $detail) {
       _id
       title
       postAuthor{
        _id
       }
       coverUrl
+      detail
       createdAt
       comments {
         _id

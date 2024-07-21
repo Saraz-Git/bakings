@@ -10,14 +10,13 @@ const QuillEditor = () => {
   ['image'],
   [{ 'header': 1 }, { 'header': 2 }],               
   [{ 'align': [] }],
-
   ['clean'] 
   ];
   const modules = {
   toolbar: toolbarOptions
 };
 
-console.log(value);
+// console.log(value);
 
   return (
     <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} />

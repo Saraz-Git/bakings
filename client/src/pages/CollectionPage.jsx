@@ -1,20 +1,24 @@
 import PostList from "../components/PostList";
 import { useQuery } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
-import { Navigate } from 'react-router-dom';
+import { Navigate,useParams  } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { Container, Spinner,Text } from "@chakra-ui/react";
 
 const CollectionPage = () => {
-  if (!Auth.loggedIn() ) {
-    return <Navigate to="/" />;
-  }
-
-  const{loading,data}= useQuery(QUERY_USER,{
-    variables:{userId:Auth.getProfile().data._id}
+    const{loading,data}= useQuery(QUERY_USER,{
+    variables:{userId: Auth.getProfile().data._id}
   });
 
   const user = data?.user || {};
+  console.log(user);
+
+  if (!Auth.loggedIn() ) {
+    return <Navigate to="/" />;
+  }
+ 
+
+
 
    if(loading){
     return  <Spinner
