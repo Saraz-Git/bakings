@@ -93,7 +93,14 @@ export const ADD_POST = gql`
     }
   }
 `;
-
+export const ADD_INGREDIENT = gql`
+mutation addIngredient($postId:ID! $material:String! $amount:String!){
+  addIngredient(postId:$postId, material:$material, amount: $amount){
+    _id
+    title
+  }
+}
+`;
 export const ADD_COLLECTION = gql`
   mutation addCollection($postId:ID!  $userId: ID){
     addCollection(postId: $postId,  userId: $userId){

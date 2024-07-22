@@ -174,6 +174,22 @@ const resolvers = {
             throw AuthenticationError;
             ('You need to be logged in!');
         },
+        addIngredient: async (parent, { postId, material, amount }, context) => {
+
+            return Post.findOneAndUpdate(
+                { _id: postId },
+                {
+                    $addToSet: {
+                        ingredients: { material, amount },
+                    },
+                },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+
+        },
         // addComment: async (parent, { thoughtId, commentText }, context) => {
         //     if (context.user) {
         //         return Thought.findOneAndUpdate(

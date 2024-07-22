@@ -14,7 +14,7 @@ import AddIngredientForm from '../components/AddIngredientsForm';
 import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ADD_POST, UPDATE_TAG } from '../utils/mutations';
+import { ADD_POST, UPDATE_TAG, ADD_INGREDIENT } from '../utils/mutations';
 import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from '../utils/queries';
 
 import usePreviewImg from '../hooks/usePreviewImg';
@@ -28,8 +28,11 @@ const CreatePage = () => {
   const [title, setTitle] = useState('Click to Enter Post Title');
   const [detail, setDetail]=useState('');
 
+  const [ingredients, setIngredients] = useState('');
+  const handleChildData = (data) => {
+    setIngredients(data) ;// Update the parent state with data from the child component
+  };
   
- 
   console.log(detail);
   const toolbarOptions = [
   [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
@@ -69,6 +72,7 @@ const CreatePage = () => {
       'me'
     ]
   });
+  const[addIngredient,{error: addIngredientError}]=useMutation(ADD_INGREDIENT);
 
   const [updateTag, {error: updateTagError}]= useMutation(UPDATE_TAG);
 
@@ -100,11 +104,16 @@ const CreatePage = () => {
   }
   
 //  console.log(postTags); 
+   if(ingredients){
+    ingredients.map((ingredient)=>(
+    console.log(ingredient.material)
+
+   ))
+  }
+  
 
    const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(detail);
-    console.log(typeof(detail));
 
     try {
       const { data } = await addPost({
@@ -122,8 +131,17 @@ const CreatePage = () => {
         })
         )) 
         }
+
+      if(ingredients){
+        ingredients.map(async(ingredient)=>(
+          await addIngredient({
+            variables:{postId:newPost._id, material:ingredient.material, amount:ingredient.amount}
+          })
+        ))
+      }
+
         
-        navigate('/me');
+      navigate('/me');
 
     } catch (err) {
       console.error(err);
@@ -188,7 +206,7 @@ const CreatePage = () => {
       </AccordionButton>
     </h2>
     <AccordionPanel px={1} pb={4}>
-      <AddIngredientForm/>
+      <AddIngredientForm onData={handleChildData}/>
     </AccordionPanel>
   </AccordionItem>
 

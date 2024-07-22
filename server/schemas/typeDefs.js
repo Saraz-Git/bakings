@@ -19,6 +19,7 @@ const typeDefs = `
     postAuthor: User
     detail: String
     createdAt: String
+    ingredients: [Ingredient]
     comments: [Comment]
     collectedBy: [User]
   }
@@ -29,6 +30,13 @@ const typeDefs = `
     posts: [Post]
   }
 
+  type Ingredient {
+    _id: ID
+    material: String
+    amount: String
+    postRelated: Post
+  }
+  
   type Comment {
     _id: ID
     commentText: String
@@ -59,6 +67,7 @@ const typeDefs = `
     followUser(followerId: ID!, followingId: ID!): User
     unfollowUser(followerId: ID!, followingId: ID!): User
     addPost(title: String!, coverUrl: String, detail: String): Post
+    addIngredient(postId:ID!, material:String!, amount: String!): Post
     addCollection(postId:ID!, userId:ID):User
     addComment(postId: ID!, commentText: String!): Post
     removePost(postId: ID!): Post

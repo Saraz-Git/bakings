@@ -1,4 +1,4 @@
-import { Container,Input,Grid, Center, Button, LinkBox,InputGroup,InputLeftElement } from '@chakra-ui/react';
+import { Container,Input,Grid, Card,Center, Button, LinkBox,InputGroup,InputLeftElement,useColorModeValue} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { useQuery } from '@apollo/client';
 import { QUERY_TAGS } from '../utils/queries';
@@ -21,7 +21,7 @@ const HomePage = () => {
         
         {tags && tags.map((tag)=>(
           <LinkBox key={tag._id} as={RouterLink} to={`/tags/${tag._id}`} >
-           <Center  w='100%' h='40' fontSize='xl' textTransform='uppercase' color='red.200' bg='red.100'>{tag.tagText}</Center>
+           <Center  w='100%' h='40' fontSize='xl' textTransform='uppercase' color='red.200' bg={useColorModeValue('red.100', 'gray.800')}>{tag.tagText}</Center>
          </LinkBox>))}
 
       </Grid>
