@@ -35,20 +35,6 @@ const postSchema = new Schema({
             },
         },
     ],
-    instructions: [
-        {
-            stepText: {
-                type: String,
-                // required: true,
-                minlength: 1,
-                maxlength: 280,
-                trim: true,
-            },
-            stepImageUrl: {
-                type: String,
-            },
-        },
-    ],
     detail: {
         type: String,
         minlength: 1,

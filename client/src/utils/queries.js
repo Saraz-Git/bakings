@@ -87,6 +87,11 @@ export const QUERY_POSTS = gql`
        _id
       }
       coverUrl
+      ingredients{
+        _id
+        material
+        amount
+      }
       createdAt
       collectedBy{
       _id
@@ -102,6 +107,11 @@ export const QUERY_SINGLE_POST = gql`
       title
       coverUrl
       detail
+      ingredients{
+        _id
+        material
+        amount
+      }
       postAuthor{
        _id
        username

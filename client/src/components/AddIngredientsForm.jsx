@@ -21,7 +21,7 @@ import {
 import { useRef, useState, useEffect } from 'react';
 
 
-const AddIngredientsFrom = () => {
+const AddIngredientsFrom = ({onData}) => {
   const [formKey, setFormKey] = useState(Date.now());
 
   const [ingredients, setIngredients]=useState([]);
@@ -44,6 +44,8 @@ const AddIngredientsFrom = () => {
     console.log(ingredients);
     setFormKey(Date.now());
   };
+
+  onData(ingredients);
 
   return (
     <>
