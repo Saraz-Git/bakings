@@ -1,7 +1,7 @@
 const { User, Post, Tag } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 const cloudinary = require('../cloudinaryConfig');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const resolvers = {
     Query: {
