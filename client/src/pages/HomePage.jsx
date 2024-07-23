@@ -1,21 +1,51 @@
-import { Container,Input,Grid, Card,Center, Button, LinkBox,InputGroup,InputLeftElement,useColorModeValue} from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { Container,Spinner,Input,Grid, Card,Center, Button, LinkBox,InputGroup,InputLeftElement,useColorModeValue} from '@chakra-ui/react';
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from '@chakra-ui/react';
+import { SearchIcon ,ChevronDownIcon} from '@chakra-ui/icons';
 import { useQuery } from '@apollo/client';
 import { QUERY_TAGS } from '../utils/queries';
 import { Link as RouterLink } from "react-router-dom";
+import { useState } from 'react';
 
 const HomePage = () => {
+  const[isMenuOpen, setIsMenuOpen]=useState(false);
+  const[result,setResult]=useState('');
   const { loading, data } = useQuery(QUERY_TAGS);
   const tags = data?.tags || [];
+
+  const handleInputChange=(event)=>{
+    setResult(event.target.value);
+    setIsMenuOpen(true);
+  };
+
+ 
   return (
     <Container pb={12}>
-     
-      <InputGroup  my={'4'}>
-        <InputLeftElement pointerEvents='none'>
-          <SearchIcon color='gray.300' />
-        </InputLeftElement>
-        <Input focusBorderColor='orange.400' type='tel' placeholder='Search' />
-      </InputGroup>
+
+      <Menu isOpen={isMenuOpen}>
+        
+        <InputGroup  my={'4'}>
+          <InputLeftElement >
+            <MenuButton as={Button} variant='ghost' _hover={{ bg:'none'}}_active={{ bg:'none'}} rightIcon={<SearchIcon color='gray.300' />}></MenuButton>
+          </InputLeftElement>
+          <Input focusBorderColor='orange.400' type='search' placeholder='Search' onChange={handleInputChange} />
+        </InputGroup>
+
+        <MenuList>
+          <MenuItem onClick={() => setIsMenuOpen(false)}>DownloadDownloadDownloadDownloadDownloadDownloadDownload</MenuItem>
+          <MenuItem>{result}</MenuItem>
+        </MenuList>
+      </Menu>
+
+
 
       <Grid templateColumns='repeat(3, 2fr)' gap={6}>
         

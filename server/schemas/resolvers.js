@@ -31,6 +31,11 @@ const resolvers = {
             }
             throw AuthenticationError;
         },
+        keywordPosts: async (_, { word }) => {
+
+            return await Post.find({ title: { $regex: word, $options: 'i' } })
+
+        },
     },
 
     Mutation: {

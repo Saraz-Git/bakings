@@ -57,6 +57,7 @@ const typeDefs = `
     posts(username: String): [Post]
     post(postId: ID!): Post
     me: User
+    keywordPosts(word:String!):[Post]
   }
 
   type Mutation {
