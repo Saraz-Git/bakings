@@ -12,14 +12,15 @@ import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import {FOLLOW_USER, UNFOLLOW_USER} from '../utils/mutations';
 
 import Auth from '../utils/auth';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 
 const ProfilePage = () => {
   
-  // const [pageKey, setPageKey] = useState(Date.now());
+  const [pageKey, setPageKey] = useState(Date.now());
   let fill; 
- 
+
+ useEffect(()=>{fill={ color: 'green'};},[pageKey])
   
   const { loading, data } = useQuery(useParams().userId ? QUERY_USER : QUERY_ME, {
     variables: { userId: useParams().userId },
@@ -27,8 +28,12 @@ const ProfilePage = () => {
 
   const user = data?.me || data?.user || {};
 
-  const [followUser, {error: error1}]= useMutation(FOLLOW_USER);
-  const [unfollowUser, {error: error2}]= useMutation(UNFOLLOW_USER);
+  const [followUser, {error: error1}]= useMutation(FOLLOW_USER,{
+    refetchQueries:[QUERY_USER]
+  });
+  const [unfollowUser, {error: error2}]= useMutation(UNFOLLOW_USER,{
+    refetchQueries:[QUERY_USER]
+  });
 
 
   
@@ -46,7 +51,7 @@ const ProfilePage = () => {
     if(!isFollowing){
       try{
         await followUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
-        fill={ color: 'crimson'};  
+        // fill={ color: 'crimson'};  
         isFollowing=!isFollowing;  
            
       }catch(e){
@@ -55,14 +60,14 @@ const ProfilePage = () => {
     }else{
       try{
         await unfollowUser({variables:{followerId:Auth.getProfile().data._id, followingId: user._id}});
-        fill={ color: 'gray'};
+        // fill={ color: 'gray'};
         isFollowing=!isFollowing;       
       }catch(e){
       console.log(e);
       }
     }
       // setPageKey(Date.now()); 
-      window.location.reload();
+      // window.location.reload();
   };
   
 

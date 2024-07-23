@@ -1,4 +1,4 @@
-import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner,  Button,Tooltip,Link, Center} from "@chakra-ui/react"
+import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner,  Button,Tooltip,Link, Center,useColorModeValue} from "@chakra-ui/react"
 import {
   Accordion,
   AccordionItem,
@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
+import { usePDF } from 'react-to-pdf';
+import generatePDF, { Resolution, Margin } from 'react-to-pdf';
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery , useMutation} from '@apollo/client';
@@ -54,6 +56,30 @@ const PostPage = () => {
     toast("Successfully collected the post!"); 
     
   };
+
+  
+  const options = {
+   // default is `save`
+   method: 'open',
+   // default is Resolution.MEDIUM = 3, which should be enough, higher values
+   // increases the image quality but also the size of the PDF, so be careful
+   // using values higher than 10 when having multiple pages generated, it
+   // might cause the page to crash or hang.
+   resolution: Resolution.HIGH,
+   page: {
+      
+      margin: Margin.MEDIUM,
+      // default is 'A4'
+      format: 'A5',
+      orientation: 'portrait',
+   },
+   canvas: {
+      mimeType: 'image/jpeg',
+      qualityRatio: 1
+   },
+
+};
+const getTargetElement = () => document.getElementById('content-id');
  
 
   if(loading ){
@@ -68,7 +94,8 @@ const PostPage = () => {
   }
 
   return (
-    <Container py={6}>
+    <Container py={6} >
+      <Box id="content-id">
       <AspectRatio ratio={3 / 2}>
         <Image
         w={'full'}
@@ -82,10 +109,10 @@ const PostPage = () => {
       <Text py={4}fontSize='1.8em'fontWeight={'bold'} textAlign={'center'}>{post.title}</Text>
 
       <Flex justifyContent={'space-between'}>
-        <Flex bg='red.100' borderRadius={'md'} p={2}>
+        <Flex bg={useColorModeValue('red.100', 'gray.800')} borderRadius={'md'} p={2}>
           <Text fontSize={'sm'}>4.8  120 ratings  230 likes  {post.collectedBy.length} collects</Text>
         </Flex>
-         <Box bg='red.100' borderRadius={'md'} p={2} textAlign={'center'}>
+         <Box bg={useColorModeValue('red.100', 'gray.800')}borderRadius={'md'} p={2} textAlign={'center'}>
           <Text as={RouterLink} to={`/profiles/${post.postAuthor._id}`} fontSize={'sm'}>Author-{post.postAuthor.username}</Text>
         </Box>
 
@@ -109,7 +136,7 @@ const PostPage = () => {
 
       {post.detail && <Text mt={8}  fontSize='1.2em' fontWeight={'bold'}>Instructions</Text> } 
       {post.detail &&  <ReactQuill  value={post.detail} readOnly={true} theme={"bubble"}/>}
-       
+      </Box>
       <ToastContainer
           position="top-center"
           autoClose={3000}
@@ -133,7 +160,7 @@ const PostPage = () => {
             <Link ><BsChatText className='zoom' size={21} /> </Link></Tooltip>
 
             <Tooltip hasArrow placement='top' label='Print' bg='gray.200' color='gray.600'>
-            <Box ><SlPrinter  className='zoom' size={20} /> </Box></Tooltip>
+            <Box ><SlPrinter onClick={() => generatePDF(getTargetElement, options)} className='zoom' size={20} /> </Box></Tooltip>
             
           </>
          }

@@ -139,8 +139,7 @@ const CreatePage = () => {
           })
         ))
       }
-
-        
+  
       navigate('/me');
 
     } catch (err) {
