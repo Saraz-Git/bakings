@@ -102,8 +102,8 @@ mutation addIngredient($postId:ID! $material:String! $amount:String!){
 }
 `;
 export const ADD_COLLECTION = gql`
-  mutation addCollection($postId:ID!  $userId: ID){
-    addCollection(postId: $postId,  userId: $userId){
+  mutation addCollection($postId:ID!){
+    addCollection(postId: $postId){
      _id
      username
      collections {

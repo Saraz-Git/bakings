@@ -213,17 +213,19 @@ const resolvers = {
             throw AuthenticationError;
         },
         addCollection: async (parent, { postId, userId }, context) => {
-            await User.findOneAndUpdate(
-                { _id: userId },
-                { $addToSet: { collections: postId } },
-                { new: true }
-            );
-            const post = await Post.findOneAndUpdate(
-                { _id: postId },
-                { $addToSet: { collectedBy: userId } },
-                { new: true }
-            );
-            return post;
+            if (context.user) {
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { collections: postId } },
+                    { new: true }
+                );
+                const post = await Post.findOneAndUpdate(
+                    { _id: postId },
+                    { $addToSet: { collectedBy: context.user._id } },
+                    { new: true }
+                );
+                return post;
+            }
         },
         removePost: async (parent, { postId }, context) => {
             if (context.user) {
