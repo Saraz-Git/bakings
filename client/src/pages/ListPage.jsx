@@ -1,4 +1,4 @@
-import { Container , Text} from '@chakra-ui/react';
+import { Container , Text,Spinner} from '@chakra-ui/react';
 import PostCard from '../components/PostCard';
 import { Link as RouterLink } from "react-router-dom";
 import PostList from "../components/PostList";
@@ -12,7 +12,16 @@ const ListPage = () => {
   const tag = data?.tag||{};
   console.log(tag.posts);
 
-
+ if(loading ){
+    return  <Spinner
+             thickness='4px'
+             speed='0.65s'
+             emptyColor='gray.200'
+             color='orange.500'
+             size='xl'
+             m={12}
+             />
+  }
 
 
 

@@ -195,23 +195,23 @@ const resolvers = {
             );
 
         },
-        // addComment: async (parent, { thoughtId, commentText }, context) => {
-        //     if (context.user) {
-        //         return Thought.findOneAndUpdate(
-        //             { _id: thoughtId },
-        //             {
-        //                 $addToSet: {
-        //                     comments: { commentText, commentAuthor: context.user.username },
-        //                 },
-        //             },
-        //             {
-        //                 new: true,
-        //                 runValidators: true,
-        //             }
-        //         );
-        //     }
-        //     throw AuthenticationError;
-        // },
+        addComment: async (parent, { postId, commentText, commentImg, rating }, context) => {
+            if (context.user) {
+                return Post.findOneAndUpdate(
+                    { _id: postId },
+                    {
+                        $addToSet: {
+                            comments: { commentText, commentAuthor: context.user.username, commentImg, rating },
+                        },
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
+            }
+            throw AuthenticationError;
+        },
         addCollection: async (parent, { postId, userId }, context) => {
             await User.findOneAndUpdate(
                 { _id: userId },

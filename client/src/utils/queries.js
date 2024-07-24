@@ -133,6 +133,8 @@ export const QUERY_SINGLE_POST = gql`
         _id
         commentText
         commentAuthor
+        rating
+        commentImg
         createdAt
       }
     }
