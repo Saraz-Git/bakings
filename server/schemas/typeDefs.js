@@ -71,7 +71,7 @@ const typeDefs = `
     unfollowUser(followerId: ID!, followingId: ID!): User
     addPost(title: String!, coverUrl: String, detail: String): Post
     addIngredient(postId:ID!, material:String!, amount: String!): Post
-    addCollection(postId:ID!, userId:ID):User
+    addCollection(postId:ID!):User
     addComment(postId: ID!, commentText: String!,commentImg: String, rating: Float): Post
     removePost(postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post

@@ -41,7 +41,7 @@ const ProfilePage = () => {
     return <Navigate to="/me" />;
   }
   if (!Auth.loggedIn() ) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
  
 

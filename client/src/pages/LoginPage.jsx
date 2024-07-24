@@ -65,9 +65,9 @@ const LoginPage = () => {
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontWeight="normal">Sign in to your account</Heading>
-          {/* <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
-          </Text> */}
+          <Text fontSize={'lg'} color={'gray.600'}>
+            to enjoy all of our features 🤍
+          </Text>
         <ToastContainer
           position="top-center"
           autoClose={3000}
