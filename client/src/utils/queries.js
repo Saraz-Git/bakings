@@ -78,6 +78,15 @@ export const QUERY_TAG = gql`
   }
 `;
 
+export const QUERY_KEYWORDPOSTS = gql`
+  query getKeywordPosts($word: String!){
+    keywordPosts(word:$word){
+      _id
+      title
+    }
+  }
+`;
+
 export const QUERY_POSTS = gql`
   query getPosts {
     posts {
