@@ -63,6 +63,12 @@ const postSchema = new Schema({
                 type: String,
                 required: true,
             },
+            commentImg: {
+                type: String,
+            },
+            rating: {
+                type: Number,
+            },
             createdAt: {
                 type: Date,
                 default: Date.now,

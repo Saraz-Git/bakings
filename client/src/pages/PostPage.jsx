@@ -1,11 +1,4 @@
 import { Flex,Box,AspectRatio,Container,Image,Table,TableContainer,Tbody,Td,Text, Tr, Spinner,  Button,Tooltip,Link, Center,useColorModeValue} from "@chakra-ui/react"
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-} from '@chakra-ui/react'
 import { BsStar,BsChatText} from "react-icons/bs";
 import { RiThumbUpLine} from "react-icons/ri";
 import { SlPrinter } from "react-icons/sl";
@@ -13,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
-import { usePDF } from 'react-to-pdf';
 import generatePDF, { Resolution, Margin } from 'react-to-pdf';
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from "react-router-dom";
@@ -26,34 +18,35 @@ import Auth from '../utils/auth';
 import { useEffect, useState } from "react";
 
 const PostPage = () => {
-  const [collected, setCollected]= useState(false); useEffect
-  useEffect(() => {
-    console.log(`Collected changed to: ${collected}`);
-  }, [collected]);
+  
+  const[showModal, setShowModal]=useState(false);
   const { postId } = useParams();
 
-  const { loading, data } = useQuery(QUERY_SINGLE_POST, {
+  const { loading, error, data } = useQuery(QUERY_SINGLE_POST, {
     // pass URL parameter
     variables: { postId: postId },
   });
   const post = data?.post || {};
+  
 
-  console.log(post);
-
-  const [addCollection, {error: error3}]= useMutation(ADD_COLLECTION);
+  const [addCollection, {error: error3}]= useMutation(ADD_COLLECTION,{
+    refetchQueries:[QUERY_SINGLE_POST]
+  });
 
   const handleCollect = async(event)=>{
     event.preventDefault();
-    try {
+    if(!isCollected){
+      try {
        await addCollection({
         variables: { postId: postId, userId: Auth.getProfile().data._id},
       });
-      setCollected(true);
 
     } catch (e) {
       console.error(e);
     }
     toast("Successfully collected the post!"); 
+    }else{toast("Already collected!"); }
+    
     
   };
 
@@ -92,6 +85,19 @@ const getTargetElement = () => document.getElementById('content-id');
              m={12}
              />
   }
+
+  if(error){
+    return <Center pt={6}>post not found</Center>
+  }
+
+  const collectors= post.collectedBy;
+  const idArr= collectors.map((collector)=>(collector._id));
+  let isCollected= idArr.includes(Auth.getProfile().data._id);
+  console.log(isCollected);
+
+
+ 
+ 
 
   return (
     <Container py={6} >
@@ -157,7 +163,7 @@ const getTargetElement = () => document.getElementById('content-id');
             <Link ><RiThumbUpLine className='zoom' size={23} /> </Link></Tooltip>
 
             <Tooltip hasArrow placement='top' label='Feedback' bg='gray.200' color='gray.600'>
-            <Link ><BsChatText className='zoom' size={21} /> </Link></Tooltip>
+            <Link ><BsChatText onClick={()=>{setShowModal(!showModal)}}className='zoom' size={21} /> </Link></Tooltip>
 
             <Tooltip hasArrow placement='top' label='Print' bg='gray.200' color='gray.600'>
             <Box ><SlPrinter onClick={() => generatePDF(getTargetElement, options)} className='zoom' size={20} /> </Box></Tooltip>
@@ -167,6 +173,10 @@ const getTargetElement = () => document.getElementById('content-id');
         
       </Flex>
       </Center>
+
+      {showModal && 
+      <CommentForm postId={post._id}/>
+      }
 
    
 
@@ -178,22 +188,7 @@ const getTargetElement = () => document.getElementById('content-id');
       <CommentList comments={post.comments} />
       
 
-      <Accordion allowToggle>
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box as='span' flex='1' textAlign='left'>
-          Comment
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      
-      <CommentForm postId={post._id}/>
-    </AccordionPanel>
-  </AccordionItem>
-  </Accordion>
+
 
       
     </Container>

@@ -42,6 +42,8 @@ const typeDefs = `
     commentText: String
     commentAuthor: String
     createdAt: String
+    rating: Float
+    commentImg: String
   }
 
   type Auth {
@@ -70,7 +72,7 @@ const typeDefs = `
     addPost(title: String!, coverUrl: String, detail: String): Post
     addIngredient(postId:ID!, material:String!, amount: String!): Post
     addCollection(postId:ID!, userId:ID):User
-    addComment(postId: ID!, commentText: String!): Post
+    addComment(postId: ID!, commentText: String!,commentImg: String, rating: Float): Post
     removePost(postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post
   }

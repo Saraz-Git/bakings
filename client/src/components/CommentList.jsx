@@ -1,19 +1,36 @@
 import { Container , Box, Divider, Flex, Text,Image} from '@chakra-ui/react';
 
-const CommentList = () => {
+const CommentList = (comments) => {
+   const commentsArr=comments.comments || [];
+
+
+   if(!commentsArr.length){
+    return(<Box>No reviews yet</Box>
+
+    )
+   }
   return (
     <Box>
-      <Flex my={3} justifyContent={'space-between'}>
+    {commentsArr.length && commentsArr.map((comment)=>
+      <Box key={comment._id}>
+       <Flex my={3} justifyContent={'space-between'}>
         <Box textAlign={'left'} fontSize={'sm'}>
-          <Text py={3} >Amazing post, thanks</Text>
-          <Text>Rating: 8.5</Text>
-          <Text>Commented by username on 21Jan 2023</Text>
+          <Text py={3} >{comment.commentText}</Text>
+          <Text>Rating: {comment.rating || 'N/A'}</Text>
+          <Text>Commented by {comment.commentAuthor} on {comment.createdAt}</Text>
         </Box>
-        <Image className='thumbnail'p={2} src='' fallbackSrc='https://via.placeholder.com/150' alt='commentPicture' objectFit='cover' />
-      </Flex>
-      <Divider/>
-      
+        {comment.commentImg && <Image className='thumbnail'p={2} src={comment.commentImg} fallbackSrc='https://via.placeholder.com/150' alt='commentPicture' objectFit='cover' />}
+       </Flex>
+       <Divider/> 
     </Box>
+    )}
+    </Box>
+    
+    
+
+
+
+
   )
 }
 

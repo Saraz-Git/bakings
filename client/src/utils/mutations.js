@@ -116,8 +116,8 @@ export const ADD_COLLECTION = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation addComment($postId: ID!, $commentText: String!) {
-    addComment(postId: $postId, commentText: $commentText) {
+  mutation addComment($postId: ID!, $commentText: String!,$commentImg: String, $rating: Float) {
+    addComment(postId: $postId, commentText: $commentText, commentImg: $commentImg, rating: $rating) {
       _id
       title
       postAuthor{
@@ -128,6 +128,8 @@ export const ADD_COMMENT = gql`
         _id
         commentText
         createdAt
+        rating
+        commentImg
       }
     }
   }
