@@ -34,11 +34,6 @@ const HomePage = () => {
   const { loading: loading1, data: data1 } = useQuery(QUERY_TAGS);
   const tags = data1?.tags || [];
 
-  // if(tags.length>6){
-  //   const shortTags=tags.slice(0,6)
-  //   console.log(shortTags);
-  // }
-
   return (
     <Container pb={12}>
       <SearchBar />

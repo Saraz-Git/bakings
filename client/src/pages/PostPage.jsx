@@ -17,6 +17,13 @@ import {
   Center,
   useColorModeValue,
 } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from "@chakra-ui/react";
 import { BsStar, BsChatText } from "react-icons/bs";
 import { RiThumbUpLine } from "react-icons/ri";
 import { SlPrinter } from "react-icons/sl";
@@ -268,11 +275,27 @@ const PostPage = () => {
           </Box>
         )}
 
-      <Text mt={"200px"} fontSize="1.2em" fontWeight={"bold"}>
-        Reviews
-      </Text>
-
-      <CommentList comments={post.comments} />
+      <Accordion pt={12} allowToggle>
+        <AccordionItem>
+          <h2>
+            <AccordionButton px={0}>
+              <Box
+                as="span"
+                flex="1"
+                textAlign="left"
+                fontSize="1.2em"
+                fontWeight={"bold"}
+              >
+                Reviews
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel p={0}>
+            <CommentList comments={post.comments} />
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </Container>
   );
 };
