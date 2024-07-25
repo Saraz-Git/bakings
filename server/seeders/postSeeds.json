@@ -1,8 +1,9 @@
 [
   {
     "title": "Flourless Orange Cake",
-    "coverUrl" : "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184345/vy0kxhrsiuytopgpc2yx.webp"
-    
+    "coverUrl" : "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184345/vy0kxhrsiuytopgpc2yx.webp",
+    "ingredients":[{"material":"egg", "amount": "1"},{"material":"flour", "amount": "100g"}],
+    "detail": "<p>Details to be updated</p>"
   },
   {
     "title": "Banana Bread",

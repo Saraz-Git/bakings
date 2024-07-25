@@ -15,34 +15,54 @@ db.once('open', async () => {
 
         const tags = await Tag.create(tagSeeds);
 
-        // const posts = await Post.create(postSeeds);
+        const posts = await Post.create(postSeeds);
 
-        // for (let i = 0; i < postSeeds.length; i++) {
-        //     const { _id, postAuthor } = await Post.create(postSeeds[i]);
-        //     const user = await User.findOneAndUpdate(
-        //         { username: postAuthor },
-        //         {
-        //             $addToSet: {
-        //                 posts: _id,
-        //             },
-        //         }
-        //     );
-        // }
+        for (newPost of posts) {
+            console.log(newPost.title);
+            // randomly add each post to a user
+            const tempUser = users[Math.floor(Math.random() * users.length)];
+            tempUser.posts.push(newPost._id);
 
-        // for (newPost of posts) {
-        //     // randomly add each post to a user
-        //     const tempUser = users[Math.floor(Math.random() * users.length)];
-        //     tempUser.posts.push(newPost._id);
+            newPost.postAuthor = tempUser._id;
+            await newPost.save();
+            await tempUser.save();
 
-        //     newPost.postAuthor = tempUser._id;
-        //     await newPost.save();
-        //     await tempUser.save();
+            // add tag to each post
+            await Tag.findOneAndUpdate(
+                { tagText: { $regex: "Dessert", $options: 'i' } },
+                { $addToSet: { posts: newPost._id } },
+                { new: true }
+            );
 
-        //     // randomly add a tag to each post
-        //     const tempTag = tags[Math.floor(Math.random() * tags.length)];
-        //     tempTag.posts.push(newPost._id);
-        //     await tempTag.save();
-        // }
+            if (newPost.title == "Banana Bread") {
+                await Tag.findOneAndUpdate(
+                    { tagText: "Bread" },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
+            if (newPost.title == "Flourless Orange Cake") {
+                await Tag.findOneAndUpdate(
+                    { tagText: { $regex: "cake", $options: 'i' } },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
+            if (newPost.title == "Classic Scone") {
+                await Tag.findOneAndUpdate(
+                    { tagText: { $regex: "breakfast", $options: 'i' } },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
+            if (newPost.title == "Christmas Sugar Cookies") {
+                await Tag.findOneAndUpdate(
+                    { tagText: { $regex: "holiday", $options: 'i' } },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
+        }
 
 
     } catch (err) {

@@ -177,6 +177,7 @@ const PostPage = () => {
           <ReactQuill value={post.detail} readOnly={true} theme={"bubble"} />
         )}
       </Box>
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
