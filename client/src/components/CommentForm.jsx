@@ -71,10 +71,11 @@ const CommentForm = (postId) => {
       }
     }
 
+    setRating(0);
+    setCommentText("");
+
     toast("Comment sent!");
   };
-
-  console.log(commentText);
 
   return (
     <Container p="0px" w="100%">

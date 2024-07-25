@@ -157,6 +157,9 @@ export const QUERY_ME = gql`
          _id
         } 
         createdAt
+        collectedBy{
+         _id
+        }
       }
       collections {
         _id

@@ -1,76 +1,135 @@
-import {Card,CardBody,Heading, Badge,Text, Link, Stack,Image, CardFooter,AspectRatio,Box, Flex} from '@chakra-ui/react';
+import {
+  Card,
+  CardBody,
+  Heading,
+  Badge,
+  Text,
+  Link,
+  Stack,
+  Image,
+  CardFooter,
+  AspectRatio,
+  Box,
+  Flex,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 // import { useQuery } from '@apollo/client';
 // import { QUERY_SINGLE_POST} from '../utils/queries';
 
-const PostList = ({posts}) => {
+const PostList = ({ posts }) => {
   console.log(posts);
 
-if (!posts.length) {
+  if (!posts) {
     return <Box>No posts yet</Box>;
   }
 
   return (
-   <Box>
-    {posts && posts.map((post)=>(
-      <Link key={post._id} w={'full'} href={`/posts/${post._id}`} style={{ textDecoration: 'none' }} >
-        
+    <Box>
+      {posts &&
+        posts.map((post) => (
+          <Flex
+            my={6}
+            border="1px"
+            borderColor="gray.200"
+            borderRadius={"6px"}
+            bg={useColorModeValue("white", "gray.700")}
+            shadow="md"
+            key={post._id}
+            w={"full"}
+            minW={"250px"}
+            direction={{ base: "column", sm: "row" }}
+          >
+            <Image
+              borderTopLeftRadius="5px"
+              borderBottomLeftRadius={{ base: "0", sm: "5px" }}
+              borderTopRightRadius={{ base: "5px", sm: "0" }}
+              className="cardImg"
+              w="600px"
+              objectFit="cover"
+              maxW={{ base: "100%", sm: "250px" }}
+              src={post.coverUrl}
+              fallbackSrc="https://via.placeholder.com/250"
+              alt={post.title}
+            />
+            <Flex
+              minW={"250px"}
+              direction="column"
+              // direction={{ base: "row", sm: "column" }}
+              justifyContent={"space-between"}
+              px={{ base: 4, sm: 6 }}
+              py={{ base: 2, sm: 6 }}
+            >
+              <Box>
+                <Heading size={{ base: "sm", sm: "md" }}>{post.title}</Heading>
 
-       <Card
-         direction={{ base: 'column', sm: 'row' }}
-         overflow='hidden'
-         variant='outline'
-         shadow={'md'}
-         w={'full'}
-         h='250px'
-         my={6}
-       >
+                <Flex pt={2}>
+                  <Badge colorScheme="pink">1 Likes</Badge>
 
-        
-      
-        <Image
-        className='cardImg'
-         w='600px'
-         objectFit='cover'
-        //  maxW={{ base: '100%', sm: '250px' }}
-         src={post.coverUrl }
-         fallbackSrc='https://via.placeholder.com/250'
-         alt={post.title}
-        />
+                  {post.collectedBy.length > 0 && (
+                    <Badge mx={1} colorScheme="purple">
+                      {post.collectedBy.length} collects
+                    </Badge>
+                  )}
+                </Flex>
+              </Box>
 
-      <Stack>
-       <CardBody>
-         <Heading size='md'>{post.title}</Heading> 
+              <Text fontSize={"xs"} py="2">
+                {post.createdAt}
+              </Text>
+            </Flex>
+          </Flex>
+          //   <Link
+          //     key={post._id}
+          //     w={"full"}
+          //     href={`/posts/${post._id}`}
+          //     style={{ textDecoration: "none" }}
+          //   >
+          //     <Card
+          //       // direction={{ base: "column", md: "row" }}
+          //       overflow="hidden"
+          //       variant="outline"
+          //       shadow={"md"}
+          //       w={"full"}
+          //       h="250px"
+          //       my={6}
+          //     >
+          //       <Image
+          //         className="cardImg"
+          //         w="600px"
+          //         objectFit="cover"
+          //         //  maxW={{ base: '100%', sm: '250px' }}
+          //         src={post.coverUrl}
+          //         fallbackSrc="https://via.placeholder.com/250"
+          //         alt={post.title}
+          //       />
 
-         <Badge colorScheme='pink'>
-          1 Likes
-          </Badge>
+          //       <Stack>
+          //         <CardBody>
+          //           <Heading size={{ base: "sm", sm: "md" }}>
+          //             {post.title}
+          //           </Heading>
 
+          //           <Badge colorScheme="pink">1 Likes</Badge>
 
-         {/* {post.collectedBy.length>0  &&
-          <Badge mx={1}colorScheme='purple'>
-          {post.collectedBy.length} collects
-          </Badge>
-         } */}
-         
-         
-       </CardBody>
+          //           {/* {post.collectedBy.length>0  &&
+          //   <Badge mx={1}colorScheme='purple'>
+          //   {post.collectedBy.length} collects
+          //   </Badge>
+          //  } */}
+          //         </CardBody>
 
-       <CardFooter>
-     
-         <Text fontSize={'xs'} py='2'>
-          {post.createdAt}
-         </Text>
-       </CardFooter>
-      </Stack>
-     </Card>
-    </Link>
-    ))}
-
+          //         <CardFooter>
+          //           <Text fontSize={"xs"} py="2">
+          //             {post.createdAt}
+          //           </Text>
+          //         </CardFooter>
+          //       </Stack>
+          //     </Card>
+          //   </Link>
+        ))}
     </Box>
+  );
+};
 
-
-
-  )
-}
-
-export default PostList
+export default PostList;
