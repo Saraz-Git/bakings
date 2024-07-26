@@ -14,6 +14,9 @@ export const QUERY_USER = gql`
         coverUrl
         detail
         createdAt
+        likedBy{
+         _id
+        }
         collectedBy{
          _id
         }
@@ -24,6 +27,12 @@ export const QUERY_USER = gql`
         coverUrl
         detail
         createdAt
+        collectedBy{
+         _id
+        }
+        likedBy{
+         _id
+        }
         postAuthor{
         _id
         username
@@ -40,6 +49,7 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
 
 export const QUERY_TAGS = gql`
   query getTags {
@@ -73,6 +83,9 @@ export const QUERY_TAG = gql`
         collectedBy{
          _id
         }
+        likedBy{
+         _id
+        }
       }
     }
   }
@@ -102,6 +115,7 @@ export const QUERY_POSTS = gql`
         amount
       }
       createdAt
+
       collectedBy{
       _id
       }
@@ -129,6 +143,9 @@ export const QUERY_SINGLE_POST = gql`
       _id
       }
       createdAt
+      likedBy{
+         _id
+      }
       comments {
         _id
         commentText
@@ -157,6 +174,9 @@ export const QUERY_ME = gql`
          _id
         } 
         createdAt
+        likedBy{
+         _id
+        }
         collectedBy{
          _id
         }
@@ -167,6 +187,12 @@ export const QUERY_ME = gql`
         coverUrl
         detail
         createdAt
+        likedBy{
+         _id
+        }
+        collectedBy{
+         _id
+        }
         postAuthor{
         _id
         username

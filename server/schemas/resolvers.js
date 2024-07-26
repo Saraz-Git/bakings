@@ -20,14 +20,14 @@ const resolvers = {
         },
         posts: async (parent, { username }) => {
             const params = username ? { username } : {};
-            return Post.find(params).sort({ createdAt: -1 }).populate('collectedBy');
+            return Post.find(params).sort({ createdAt: -1 }).populate('collectedBy').populate('likedBy');
         },
         post: async (parent, { postId }) => {
-            return Post.findById({ _id: postId }).populate('postAuthor').populate('collectedBy');
+            return Post.findById({ _id: postId }).populate('postAuthor').populate('collectedBy').populate('likedBy');
         },
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user._id }).populate('posts');
+                return User.findOne({ _id: context.user._id }).populate('posts').populate('collections');
             }
             throw AuthenticationError;
         },
@@ -227,6 +227,52 @@ const resolvers = {
                 return post;
             }
         },
+        removeCollection: async (parent, { postId, userId }, context) => {
+            if (context.user) {
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { collections: postId } },
+                    { new: true }
+                );
+                const post = await Post.findOneAndUpdate(
+                    { _id: postId },
+                    { $pull: { collectedBy: context.user._id } },
+                    { new: true }
+                );
+                return post;
+            }
+        },
+        addLike: async (parent, { postId, userId }, context) => {
+            if (context.user) {
+                // await User.findOneAndUpdate(
+                //     { _id: context.user._id },
+                //     { $addToSet: { collections: postId } },
+                //     { new: true }
+                // );
+                const post = await Post.findOneAndUpdate(
+                    { _id: postId },
+                    { $addToSet: { likedBy: context.user._id } },
+                    { new: true }
+                );
+                return post;
+            }
+        },
+        removeLike: async (parent, { postId, userId }, context) => {
+            if (context.user) {
+                // await User.findOneAndUpdate(
+                //     { _id: context.user._id },
+                //     { $addToSet: { collections: postId } },
+                //     { new: true }
+                // );
+                const post = await Post.findOneAndUpdate(
+                    { _id: postId },
+                    { $pull: { likedBy: context.user._id } },
+                    { new: true }
+                );
+                return post;
+            }
+        },
+
         removePost: async (parent, { postId }, context) => {
             if (context.user) {
                 const post = await Post.findOneAndDelete({

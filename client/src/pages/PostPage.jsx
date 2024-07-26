@@ -25,6 +25,7 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { BsStar, BsChatText } from "react-icons/bs";
+import { SlLike } from "react-icons/sl";
 import { RiThumbUpLine } from "react-icons/ri";
 import { SlPrinter } from "react-icons/sl";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,7 +37,12 @@ import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_POST, QUERY_USER } from "../utils/queries";
-import { ADD_COLLECTION } from "../utils/mutations";
+import {
+  ADD_COLLECTION,
+  REMOVE_COLLECTION,
+  ADD_LIKE,
+  REMOVE_LIKE,
+} from "../utils/mutations";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
 import Auth from "../utils/auth";
@@ -53,6 +59,18 @@ const PostPage = () => {
   const post = data?.post || {};
 
   const [addCollection, { error: error3 }] = useMutation(ADD_COLLECTION, {
+    refetchQueries: [QUERY_SINGLE_POST, QUERY_USER],
+  });
+
+  const [removeCollection, { error: error4 }] = useMutation(REMOVE_COLLECTION, {
+    refetchQueries: [QUERY_SINGLE_POST],
+  });
+
+  const [addLike, { error: error5 }] = useMutation(ADD_LIKE, {
+    refetchQueries: [QUERY_SINGLE_POST, QUERY_USER],
+  });
+
+  const [removeLike, { error: error6 }] = useMutation(REMOVE_LIKE, {
     refetchQueries: [QUERY_SINGLE_POST],
   });
 
@@ -90,7 +108,7 @@ const PostPage = () => {
     );
   }
 
-  if (error) {
+  if (error || error3 || error4) {
     return <Center pt={6}>post not found</Center>;
   }
 
@@ -99,7 +117,6 @@ const PostPage = () => {
     const collectors = post.collectedBy;
     const idArr = collectors.map((collector) => collector._id);
     let isCollected = idArr.includes(Auth.getProfile()?.data._id);
-    console.log(isCollected);
     if (!isCollected) {
       try {
         await addCollection({
@@ -110,7 +127,40 @@ const PostPage = () => {
       }
       toast("Successfully collected the post!");
     } else {
-      toast("Already collected!");
+      try {
+        await removeCollection({
+          variables: { postId: postId },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      toast("un-collected the post!");
+    }
+  };
+
+  const handleLikeUnlike = async (event) => {
+    event.preventDefault();
+    const likers = post.likedBy;
+    const idArr = likers.map((liker) => liker._id);
+    let isLiked = idArr.includes(Auth.getProfile()?.data._id);
+    if (!isLiked) {
+      try {
+        await addLike({
+          variables: { postId: postId },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      toast("Successfully liked the post!");
+    } else {
+      try {
+        await removeLike({
+          variables: { postId: postId },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      toast("unliked the post!");
     }
   };
 
@@ -137,7 +187,8 @@ const PostPage = () => {
             p={2}
           >
             <Text fontSize={"sm"}>
-              4.8 120 ratings 230 likes {post.collectedBy.length} collects
+              4.8 120 ratings {post.likedBy.length} likes{" "}
+              {post.collectedBy.length} collects
             </Text>
           </Flex>
           <Box
@@ -227,7 +278,11 @@ const PostPage = () => {
                         color="gray.600"
                       >
                         <Link>
-                          <RiThumbUpLine className="zoom" size={23} />{" "}
+                          <SlLike
+                            onClick={handleLikeUnlike}
+                            className="zoom"
+                            size={22}
+                          />{" "}
                         </Link>
                       </Tooltip>
 

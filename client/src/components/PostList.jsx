@@ -14,12 +14,10 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-// import { useQuery } from '@apollo/client';
-// import { QUERY_SINGLE_POST} from '../utils/queries';
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const PostList = ({ posts }) => {
-  console.log(posts);
-
   if (!posts) {
     return <Box>No posts yet</Box>;
   }
@@ -29,6 +27,8 @@ const PostList = ({ posts }) => {
       {posts &&
         posts.map((post) => (
           <Flex
+            as={RouterLink}
+            to={`/posts/${post._id}`}
             my={6}
             border="1px"
             borderColor="gray.200"
@@ -55,7 +55,6 @@ const PostList = ({ posts }) => {
             <Flex
               minW={"250px"}
               direction="column"
-              // direction={{ base: "row", sm: "column" }}
               justifyContent={"space-between"}
               px={{ base: 4, sm: 6 }}
               py={{ base: 2, sm: 6 }}
@@ -64,7 +63,11 @@ const PostList = ({ posts }) => {
                 <Heading size={{ base: "sm", sm: "md" }}>{post.title}</Heading>
 
                 <Flex pt={2}>
-                  <Badge colorScheme="pink">1 Likes</Badge>
+                  {post.likedBy.length > 0 && (
+                    <Badge mx={1} colorScheme="pink">
+                      {post.likedBy.length} likes
+                    </Badge>
+                  )}
 
                   {post.collectedBy.length > 0 && (
                     <Badge mx={1} colorScheme="purple">
