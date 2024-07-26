@@ -2,22 +2,26 @@
   {
     "title": "Flourless Orange Cake",
     "coverUrl" : "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184345/vy0kxhrsiuytopgpc2yx.webp",
-    "ingredients":[{"material":"egg", "amount": "1"},{"material":"flour", "amount": "100g"}],
-    "detail": "<p>Details to be updated</p>"
+    "ingredients":[{"material":"orange", "amount": "2"},{"material":"egg", "amount": "6"},{"material":"caster sugar", "amount": "250g"},{"material":"almond meal", "amount": "250g"},{"material":"baking powder", "amount": "1 tsp"}],
+    "detail": "<h2>Step 1 </h2><p>Wash the navel oranges, cut off the ends and place the oranges into a large pot. Cover with water , bring to boil and then simmer for 1 hour. Remove the oranges from water and allow to cool completely. Chop oranges and process until smooth in a food processor.</p><p><br></p><h2>Step 2</h2><p>Preheat the oven to 160 degrees, grease and line the base and sides of a 22cm springform pan with baking paper and set aside.</p><p><br></p><h2>Step 3</h2><p>Beat the eggs and the caster sugar in a large bowl until pale and frothy( about 2 minutes on high using hand-held beaters). Add the orange puree and stir through..</p><p><br></p><h2>Step 4</h2><p>Pour the mixture into the prepared baking tin. Bake for 60 minutes or until a skewer inserted into the middle comes out with just a few crumbs on it. Allow cool completely to room temperature before serve.</p><p><br></p><h2>Notes</h2><p><strong>Browning on top - </strong>if you notice that your cake is browning too much, simply place a sheet of foil over the top and continue.</p><p><strong>Storing or serving</strong>- this cake can be kept in airtight container at room temperature for up to 4 days. Dust with a little icing sugar and warm up slightly when serving.</p><p><br></p>"
   },
   {
     "title": "Banana Bread",
-    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721130930/efqrw1icnmrjilkpacol.jpg"
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721130930/efqrw1icnmrjilkpacol.jpg",
+    "ingredients":[{"material":"very ripe banana", "amount": "2"},{"material":"self raising flour", "amount": "125g"},{"material":"butter", "amount": "75g"},{"material":"olive oil", "amount": "50g"},{"material":"egg", "amount": "2"},{"material":"caster sugar", "amount": "150g"}],
+    "detail":"<h2>STEP 1</h2><p>Heat oven to 180C/160C fan/gas 4. Butter a 2lb&nbsp;loaf tin&nbsp;and line the base and sides with baking parchment.</p><p><br></p><h2>STEP 2</h2><p>Cream&nbsp;softened butter and sugar until light and fluffy, then slowly add 2 beaten large eggs with a little of the flour. Fold in the remaining flour, and 2 mashed bananas.</p><p><br></p><h2>STEP 3</h2><p>Pour the mixture into the prepared tin and bake for about 50 mins, or until cooked through. Check the loaf at 5-min intervals from around 30-40 mins in the oven by testing it with a skewer (it should be able to be inserted and removed cleanly). Cool in the tin for 10 mins, then remove to a&nbsp;wire rack.</p><p> </p>"
    
   },
    {
     "title": "Classic Scone",
-    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184707/ltcllm9vnt5ffaelgcjk.jpg"
-    
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721184707/ltcllm9vnt5ffaelgcjk.jpg",
+    "detail": "<h2>Step 1</h2><p>Heat the oven to 220C. Tip the self-raising flour into a large bowl with ¼ tsp salt and the baking powder, then mix.</p><p><br></p><h2>Step 2</h2><p>Add the butter, then rub in with your fingers until the mix looks like fine crumbs. Stir in the caster sugar.</p><p><br></p><h2>Step 3</h2><p>Put the milk into a jug and heat in the microwave for about 30 secs until warm, but not hot. Add the vanilla extract and a squeeze of lemon juice, then set aside for a moment.</p><p><br></p><h2>Step 4</h2><p>Scatter some flour onto the work surface and tip the dough out. Dredge the dough and your hands with a little more flour, then fold the dough over 2-3 times until it’s a little smoother. Pat into a round about 4cm deep. Take a 5cm cutter&nbsp;and dip it into some flour.</p><p><br></p><h2>Step 5</h2><p>Bake for 10 mins until risen and golden on the top.&nbsp;Eat just warm or cold on the day of baking, generously topped with jam and clotted cream.</p>",
+    "ingredients":[{"material":"self raising flour", "amount": "350g"},{"material":"butter", "amount": "85g"},{"material":"caster sugar", "amount": "85g"},{"material":"milk", "amount": "175ml"},{"material":"baking powder", "amount": "1 tsp"}]
   },
    {
     "title": "Christmas Sugar Cookies",
-    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721185250/widz1a5u0m0zgofyvvex.jpg"
-    
+    "coverUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721185250/widz1a5u0m0zgofyvvex.jpg",
+    "ingredients":[{"material":"plain flour", "amount": "300g"},{"material":"unsalted butter(diced)", "amount": "150g"},{"material":"egg", "amount": "1"},{"material":"royal icing sugar", "amount": "300g"}],
+    "detail": "To be updated" 
   }
 ]

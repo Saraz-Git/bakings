@@ -45,6 +45,7 @@ import {
 } from "../utils/mutations";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
+import DeleteButton from "../components/DeleteButton";
 import Auth from "../utils/auth";
 import { useEffect, useState } from "react";
 
@@ -57,6 +58,7 @@ const PostPage = () => {
     variables: { postId: postId },
   });
   const post = data?.post || {};
+  console.log(post);
 
   const [addCollection, { error: error3 }] = useMutation(ADD_COLLECTION, {
     refetchQueries: [QUERY_SINGLE_POST, QUERY_USER],
@@ -176,9 +178,21 @@ const PostPage = () => {
             alt={post.title}
           />
         </AspectRatio>
-        <Text py={4} fontSize="1.8em" fontWeight={"bold"} textAlign={"center"}>
-          {post.title}
-        </Text>
+        <Flex justify={"end"}>
+          <Text
+            w="95%"
+            py={4}
+            fontSize="1.8em"
+            fontWeight={"bold"}
+            textAlign={"center"}
+          >
+            {post.title}
+          </Text>
+          {Auth.loggedIn() &&
+            post.postAuthor.username == Auth.getProfile().data.username && (
+              <DeleteButton p={0} dataIndex={post._id} target={"post"} />
+            )}
+        </Flex>
 
         <Flex justifyContent={"space-between"}>
           <Flex
