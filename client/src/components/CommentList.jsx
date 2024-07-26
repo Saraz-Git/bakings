@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_POST } from "../utils/queries";
 import { REMOVE_COMMENT } from "../utils/mutations";
+import DeleteButton from "./DeleteButton";
 
 const CommentList = (comments) => {
   const commentsArr = comments.comments || [];
@@ -23,21 +24,21 @@ const CommentList = (comments) => {
 
   const [removeComment, { error }] = useMutation(REMOVE_COMMENT);
 
-  const deleteComment = async (e) => {
-    const commentId = e.target.parentElement.getAttribute("data-index");
-    try {
-      await removeComment({
-        variables: { postId: postId, commentId: commentId },
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const deleteComment = async (e) => {
+  //   const commentId = e.target.parentElement.getAttribute("data-index");
+  //   try {
+  //     await removeComment({
+  //       variables: { postId: postId, commentId: commentId },
+  //     });
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
   return (
     <Box>
       {commentsArr.length &&
         commentsArr.map((comment) => (
-          <Box key={comment._id}>
+          <Box px={4} key={comment._id}>
             <Flex my={3} justifyContent={"space-between"}>
               <Box textAlign={"left"} fontSize={"sm"}>
                 <Text py={3}>{comment.commentText}</Text>
@@ -61,13 +62,14 @@ const CommentList = (comments) => {
                   />
                 )}
                 {comment.commentAuthor == Auth.getProfile().data.username && (
-                  <CloseButton
-                    colorScheme="pink"
-                    size="sm"
-                    mx={0}
-                    data-index={comment._id}
-                    onClick={deleteComment}
-                  />
+                  // <CloseButton
+                  //   colorScheme="pink"
+                  //   size="sm"
+                  //   mx={0}
+                  //   data-index={comment._id}
+                  //   onClick={deleteComment}
+                  // />
+                  <DeleteButton dataIndex={comment._id} target={"comment"} />
                 )}
               </Flex>
             </Flex>

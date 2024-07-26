@@ -3,6 +3,7 @@
     "username": "Alan Baker",
     "email": "alan_baker@example.com",
     "password": "password123",
+    "profileUrl":"https://res.cloudinary.com/dkeswd23y/image/upload/v1721631329/ts57jvcewexpejfnxryy.jpg",
     "bio": "Passionate home baker specializing in bread and cakes."
   },
   
@@ -10,12 +11,14 @@
     "username": "Pastry Pal",
     "email": "pastry_pal@example.com",
     "password": "password123",
-    "bio": "Sharing my favorite recipes and tips to help one bake like a pro."
+    "profileUrl":"https://res.cloudinary.com/dkeswd23y/image/upload/v1721732140/uc0ilspd5cantbaaj3fd.jpg",
+    "bio": "Love all the things to do with baking! Sharing quick and easy recipes, classic baking favourites and more."
   },
   {
     "username": "Cookie Monster",
     "email": "cookie_monster@example.com",
     "password": "password123",
+    "profileUrl": "https://res.cloudinary.com/dkeswd23y/image/upload/v1721294251/be89h500qtfjrfczajwj.jpg",
     "bio": "Count your cookies, not your problems."
   }
 ]
