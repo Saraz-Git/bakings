@@ -110,9 +110,43 @@ export const ADD_COLLECTION = gql`
      _id
      title
      coverUrl
+     collectedBy{
+         _id
      }
+    }
   }
 }
+`;
+export const REMOVE_COLLECTION = gql`
+  mutation removeCollection($postId:ID!){
+    removeCollection(postId: $postId){
+     _id
+     username
+     collections {
+     _id
+     title
+     coverUrl
+     collectedBy{
+         _id
+      }
+    }
+  }
+}
+`;
+export const ADD_LIKE = gql`
+  mutation addLike($postId:ID!){
+    addLike(postId: $postId){
+     _id
+    }
+}
+`;
+export const REMOVE_LIKE = gql`
+  mutation removeLike($postId:ID!){
+    removeLike(postId: $postId){
+     _id
+     }
+  }
+
 `;
 
 export const ADD_COMMENT = gql`

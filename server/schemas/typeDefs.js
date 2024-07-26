@@ -22,6 +22,7 @@ const typeDefs = `
     ingredients: [Ingredient]
     comments: [Comment]
     collectedBy: [User]
+    likedBy: [User]
   }
 
   type Tag {
@@ -72,6 +73,9 @@ const typeDefs = `
     addPost(title: String!, coverUrl: String, detail: String): Post
     addIngredient(postId:ID!, material:String!, amount: String!): Post
     addCollection(postId:ID!):User
+    removeCollection(postId:ID!):User
+    addLike(postId:ID!):User
+    removeLike(postId:ID!):User
     addComment(postId: ID!, commentText: String!,commentImg: String, rating: Float): Post
     removePost(postId: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post
