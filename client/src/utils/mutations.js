@@ -93,6 +93,14 @@ export const ADD_POST = gql`
     }
   }
 `;
+export const DELETE_POST = gql`
+mutation deletePost($postId: ID!){
+  deletePost(postId: $postId){
+    _id
+    title
+  }
+}
+`;
 export const ADD_INGREDIENT = gql`
 mutation addIngredient($postId:ID! $material:String! $amount:String!){
   addIngredient(postId:$postId, material:$material, amount: $amount){
@@ -146,7 +154,6 @@ export const REMOVE_LIKE = gql`
      _id
      }
   }
-
 `;
 
 export const ADD_COMMENT = gql`

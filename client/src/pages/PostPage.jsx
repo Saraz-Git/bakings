@@ -36,7 +36,7 @@ import generatePDF, { Resolution, Margin } from "react-to-pdf";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_SINGLE_POST, QUERY_USER } from "../utils/queries";
+import { QUERY_SINGLE_POST, QUERY_USER, QUERY_ME } from "../utils/queries";
 import {
   ADD_COLLECTION,
   REMOVE_COLLECTION,
@@ -61,11 +61,11 @@ const PostPage = () => {
   console.log(post);
 
   const [addCollection, { error: error3 }] = useMutation(ADD_COLLECTION, {
-    refetchQueries: [QUERY_SINGLE_POST, QUERY_USER],
+    refetchQueries: [QUERY_SINGLE_POST, QUERY_ME],
   });
 
   const [removeCollection, { error: error4 }] = useMutation(REMOVE_COLLECTION, {
-    refetchQueries: [QUERY_SINGLE_POST],
+    refetchQueries: [QUERY_SINGLE_POST, QUERY_ME],
   });
 
   const [addLike, { error: error5 }] = useMutation(ADD_LIKE, {

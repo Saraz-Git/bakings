@@ -127,7 +127,7 @@ const CommentForm = (postId) => {
           name="commentImg"
           onClick={() => fileRef.current.click()}
           src={imgUrl || ""}
-          fallbackSrc="https://via.placeholder.com/150"
+          fallbackSrc="https://res.cloudinary.com/dkeswd23y/image/upload/v1722083874/mjmxbi8ekeyklqfolaxl.jpg"
           alt="commentPicture"
           className="stepImg"
         />

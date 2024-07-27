@@ -20,12 +20,16 @@ import {
 import Auth from "../utils/auth";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_SINGLE_POST } from "../utils/queries";
-import { REMOVE_COMMENT } from "../utils/mutations";
+import { QUERY_SINGLE_POST, QUERY_ME, QUERY_USER } from "../utils/queries";
+import { REMOVE_COMMENT, DELETE_POST } from "../utils/mutations";
 
 const DeleteButton = ({ dataIndex, target }) => {
   const { postId } = useParams();
   const [removeComment, { error }] = useMutation(REMOVE_COMMENT);
+  const [deletePost, { error: error2 }] = useMutation(DELETE_POST, {
+    refetchQueries: [QUERY_ME],
+  });
+
   const handleDelete = async (e) => {
     console.log(e.target);
     console.log(dataIndex);
@@ -44,6 +48,15 @@ const DeleteButton = ({ dataIndex, target }) => {
 
     if (target == "post") {
       console.log("delete post function to be developped");
+      // const postToDeleteId = dataIndex;
+      try {
+        await deletePost({
+          variables: { postId: postId },
+        });
+        window.location.replace("/me");
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
   return (

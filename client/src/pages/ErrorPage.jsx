@@ -1,6 +1,7 @@
-import { Button, Center, Heading, VStack } from "@chakra-ui/react";
+import { Button, Heading, VStack, Box, Center } from "@chakra-ui/react";
 import { TbFaceIdError } from "react-icons/tb";
 import { Link as RouterLink } from "react-router-dom";
+import { FaCamera } from "react-icons/fa";
 
 const ErrorPage = () => {
   return (
