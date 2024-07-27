@@ -179,6 +179,31 @@ const resolvers = {
             throw AuthenticationError;
             ('You need to be logged in!');
         },
+        deletePost: async (parent, { postId }, context) => {
+            if (context.user) {
+                await Post.findOneAndDelete(
+                    { _id: postId }
+                )
+
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { posts: postId } },
+                    { new: true }
+                )
+
+                console.log('test delete')
+
+                // const users= User.find(
+                //     {collections: {$in: postId}}
+                // )
+                // console.log(users)
+
+                // const tags = Tag.find(
+                //     { posts: { $in: postId } }
+                // )
+                // console.log(tags)
+            }
+        },
         addIngredient: async (parent, { postId, material, amount }, context) => {
 
             return Post.findOneAndUpdate(

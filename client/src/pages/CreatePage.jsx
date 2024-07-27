@@ -96,11 +96,7 @@ const CreatePage = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    //      setFormState({
-    //       ...formState,
-    //       [name]: value,
-    //     });
-    // console.log(formState);
+
     if (name === "title") {
       setTitle(value);
     }
@@ -175,7 +171,7 @@ const CreatePage = () => {
           objectFit="cover"
           src={
             imgUrl ||
-            "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+            "https://res.cloudinary.com/dkeswd23y/image/upload/v1722083874/mjmxbi8ekeyklqfolaxl.jpg"
           }
           alt="Cover Image"
         />

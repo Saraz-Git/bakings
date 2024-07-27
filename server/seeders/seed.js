@@ -18,7 +18,6 @@ db.once('open', async () => {
         const posts = await Post.create(postSeeds);
 
         for (newPost of posts) {
-            console.log(newPost.title);
             // randomly add each post to a user
             const tempUser = users[Math.floor(Math.random() * users.length)];
             tempUser.posts.push(newPost._id);

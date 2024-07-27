@@ -17,9 +17,9 @@ const typeDefs = `
     title: String
     coverUrl: String
     postAuthor: User
+    ingredients: [Ingredient]
     detail: String
     createdAt: String
-    ingredients: [Ingredient]
     comments: [Comment]
     collectedBy: [User]
     likedBy: [User]
@@ -71,6 +71,7 @@ const typeDefs = `
     followUser(followerId: ID!, followingId: ID!): User
     unfollowUser(followerId: ID!, followingId: ID!): User
     addPost(title: String!, coverUrl: String, detail: String): Post
+    deletePost(postId: ID!):Post
     addIngredient(postId:ID!, material:String!, amount: String!): Post
     addCollection(postId:ID!):User
     removeCollection(postId:ID!):User
