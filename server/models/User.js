@@ -7,6 +7,7 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
+        match: [/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/, 'Must match a username!'],
     },
     email: {
         type: String,

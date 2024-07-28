@@ -61,6 +61,20 @@ db.once('open', async () => {
                     { new: true }
                 );
             };
+            if (newPost.title == "Christmas Sugar Cookies") {
+                await Tag.findOneAndUpdate(
+                    { tagText: { $regex: "cookies", $options: 'i' } },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
+            if (newPost.title == "Shortbread Biscuits") {
+                await Tag.findOneAndUpdate(
+                    { tagText: { $regex: "biscuits", $options: 'i' } },
+                    { $addToSet: { posts: newPost._id } },
+                    { new: true }
+                );
+            };
         }
 
 
