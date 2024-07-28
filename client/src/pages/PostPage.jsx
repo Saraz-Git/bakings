@@ -58,7 +58,7 @@ const PostPage = () => {
     variables: { postId: postId },
   });
   const post = data?.post || {};
-  console.log(post);
+  // console.log(post);
 
   const [addCollection, { error: error3 }] = useMutation(ADD_COLLECTION, {
     refetchQueries: [QUERY_SINGLE_POST, QUERY_ME],
@@ -199,10 +199,13 @@ const PostPage = () => {
             bg={useColorModeValue("red.100", "gray.800")}
             borderRadius={"md"}
             p={2}
+            fontSize={"sm"}
+            gap={1}
           >
-            <Text fontSize={"sm"}>
-              4.8 120 ratings {post.likedBy.length} likes{" "}
-              {post.collectedBy.length} collects
+            {post.getRating && <Text>{post.getRating}</Text>}
+            <Text>{post.comments.length} ratings</Text>
+            <Text>
+              {post.likedBy.length} likes {post.collectedBy.length} collects
             </Text>
           </Flex>
           <Box

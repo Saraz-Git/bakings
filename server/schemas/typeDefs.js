@@ -23,6 +23,7 @@ const typeDefs = `
     comments: [Comment]
     collectedBy: [User]
     likedBy: [User]
+    getRating:Float
   }
 
   type Tag {

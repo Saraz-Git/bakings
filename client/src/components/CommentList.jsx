@@ -36,46 +36,55 @@ const CommentList = (comments) => {
   // };
   return (
     <Box>
-      {commentsArr.length &&
-        commentsArr.map((comment) => (
-          <Box px={4} key={comment._id}>
-            <Flex my={3} justifyContent={"space-between"}>
-              <Box textAlign={"left"} fontSize={"sm"}>
-                <Text py={3}>{comment.commentText}</Text>
+      {Auth.loggedIn() && (
+        <Box>
+          {commentsArr.length &&
+            commentsArr.map((comment) => (
+              <Box px={4} key={comment._id}>
+                <Flex my={3} justifyContent={"space-between"}>
+                  <Box textAlign={"left"} fontSize={"sm"}>
+                    <Text py={3}>{comment.commentText}</Text>
 
-                {comment.rating && <Text>Rating: {comment.rating}</Text>}
+                    {comment.rating && <Text>Rating: {comment.rating}</Text>}
 
-                {!comment.rating && <br />}
-                <Text>
-                  Commented by {comment.commentAuthor} on {comment.createdAt}
-                </Text>
+                    {!comment.rating && <br />}
+                    <Text>
+                      Commented by {comment.commentAuthor} on{" "}
+                      {comment.createdAt}
+                    </Text>
+                  </Box>
+                  <Flex>
+                    {comment.commentImg && (
+                      <Image
+                        className="thumbnail"
+                        p={2}
+                        src={comment.commentImg}
+                        fallbackSrc="https://via.placeholder.com/150"
+                        alt="commentPicture"
+                        objectFit="cover"
+                      />
+                    )}
+                    {comment.commentAuthor ==
+                      Auth.getProfile().data.username && (
+                      // <CloseButton
+                      //   colorScheme="pink"
+                      //   size="sm"
+                      //   mx={0}
+                      //   data-index={comment._id}
+                      //   onClick={deleteComment}
+                      // />
+                      <DeleteButton
+                        dataIndex={comment._id}
+                        target={"comment"}
+                      />
+                    )}
+                  </Flex>
+                </Flex>
+                <Divider />
               </Box>
-              <Flex>
-                {comment.commentImg && (
-                  <Image
-                    className="thumbnail"
-                    p={2}
-                    src={comment.commentImg}
-                    fallbackSrc="https://via.placeholder.com/150"
-                    alt="commentPicture"
-                    objectFit="cover"
-                  />
-                )}
-                {comment.commentAuthor == Auth.getProfile().data.username && (
-                  // <CloseButton
-                  //   colorScheme="pink"
-                  //   size="sm"
-                  //   mx={0}
-                  //   data-index={comment._id}
-                  //   onClick={deleteComment}
-                  // />
-                  <DeleteButton dataIndex={comment._id} target={"comment"} />
-                )}
-              </Flex>
-            </Flex>
-            <Divider />
-          </Box>
-        ))}
+            ))}
+        </Box>
+      )}
     </Box>
   );
 };
