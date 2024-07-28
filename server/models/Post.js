@@ -84,6 +84,23 @@ const postSchema = new Schema({
     ],
 });
 
+postSchema.methods.getRating = function () {
+
+    if (this.comments.length === 0) { return null };
+    const commentsArray = this.comments;
+
+    if (commentsArray) {
+        let total = 0;
+        let count = 0;
+        for (let comment of commentsArray) {
+            if (comment.rating) {
+                total += comment.rating;
+                count++;
+            }
+        }
+        if (total === 0 || count === 0) { return null } else { return Math.floor((total / count) * 10) / 10 };
+    }
+};
 const Post = model('Post', postSchema);
 
 module.exports = Post;

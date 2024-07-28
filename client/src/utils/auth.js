@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+import "core-js/stable/atob";
 
 class AuthService {
     getProfile() {
