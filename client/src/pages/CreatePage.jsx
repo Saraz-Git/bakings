@@ -1,22 +1,14 @@
 import {
   Flex,
-  Select,
   Input,
   Box,
   useColorModeValue,
   SimpleGrid,
-  Stack,
   CheckboxGroup,
   Checkbox,
   AspectRatio,
   Container,
   Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Tr,
   Button,
   Editable,
   EditableInput,
@@ -32,19 +24,14 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AddIngredientForm from "../components/AddIngredientsForm";
-import {
-  useLocation,
-  useNavigate,
-  Navigate,
-  useParams,
-} from "react-router-dom";
+
+import { useNavigate, Navigate, useParams } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
+
 import { ADD_POST, UPDATE_TAG, ADD_INGREDIENT } from "../utils/mutations";
 import { QUERY_POSTS, QUERY_ME, QUERY_TAGS } from "../utils/queries";
-
 import usePreviewImg from "../hooks/usePreviewImg";
-
 import Auth from "../utils/auth";
 
 const CreatePage = () => {
@@ -57,7 +44,7 @@ const CreatePage = () => {
     setIngredients(data); // Update the parent state with data from the child component
   };
 
-  console.log(detail);
+  //react Quill Editor toolbar options
   const toolbarOptions = [
     [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
     ["bold", "italic", "underline"],
@@ -81,8 +68,6 @@ const CreatePage = () => {
   const fileRef = useRef(null);
   const { handleImageChange, imgUrl } = usePreviewImg();
   // console.log(imgUrl);
-
-  // const [formState, setFormState] = useState({ title: '' });
 
   const [postTags, setPostTags] = useState([]);
 
@@ -111,15 +96,9 @@ const CreatePage = () => {
       }
 
       setPostTags(postTags);
-
-      console.log(postTags.length);
+      // console.log(postTags.length);
     }
   };
-
-  //  console.log(postTags);
-  if (ingredients) {
-    ingredients.map((ingredient) => console.log(ingredient.material));
-  }
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -253,24 +232,6 @@ const CreatePage = () => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-
-      {/* <Select name='tag' onChange={handleChange} placeholder='Select up to 3 tags'>
-        {tags && tags.map((tag)=>(<option key={tag._id} value={tag._id}>{tag.tagText}</option>))}
-      </Select> */}
-
-      {/* <Box
-          border='1px'
-          borderColor='gray.200'
-          bg={useColorModeValue('white', 'gray.700')}
-          p={2}
-          my={2}>
-
-      <CheckboxGroup colorScheme='orange'>
-        <SimpleGrid columns={6} spacing={4}>
-          {tags && tags.map((tag)=>(<Checkbox key={tag._id} name='tag' onChange={handleChange} value={tag._id}>{tag.tagText}</Checkbox>))}
-        </SimpleGrid>
-      </CheckboxGroup>
-      </Box> */}
 
       <Button
         mx={"auto"}
