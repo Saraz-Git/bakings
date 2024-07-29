@@ -33,20 +33,6 @@ db.once('open', async () => {
                 { new: true }
             );
 
-            if (newPost.title == "Banana Bread") {
-                await Tag.findOneAndUpdate(
-                    { tagText: "Bread" },
-                    { $addToSet: { posts: newPost._id } },
-                    { new: true }
-                );
-            };
-            if (newPost.title == "Flourless Orange Cake") {
-                await Tag.findOneAndUpdate(
-                    { tagText: { $regex: "cake", $options: 'i' } },
-                    { $addToSet: { posts: newPost._id } },
-                    { new: true }
-                );
-            };
             if (newPost.title == "Classic Scone") {
                 await Tag.findOneAndUpdate(
                     { tagText: { $regex: "breakfast", $options: 'i' } },
@@ -61,23 +47,18 @@ db.once('open', async () => {
                     { new: true }
                 );
             };
-            if (newPost.title == "Christmas Sugar Cookies") {
-                await Tag.findOneAndUpdate(
-                    { tagText: { $regex: "cookies", $options: 'i' } },
-                    { $addToSet: { posts: newPost._id } },
-                    { new: true }
-                );
-            };
-            if (newPost.title == "Shortbread Biscuits") {
-                await Tag.findOneAndUpdate(
-                    { tagText: { $regex: "biscuits", $options: 'i' } },
-                    { $addToSet: { posts: newPost._id } },
-                    { new: true }
-                );
-            };
+
+            for (let tag of tags) {
+                const regex = new RegExp(tag.tagText, "i");
+                if (regex.test(newPost.title)) {
+                    await Tag.findOneAndUpdate(
+                        { tagText: { $regex: tag.tagText, $options: 'i' } },
+                        { $addToSet: { posts: newPost._id } },
+                        { new: true }
+                    );
+                }
+            }
         }
-
-
     } catch (err) {
         console.error(err);
         process.exit(1);

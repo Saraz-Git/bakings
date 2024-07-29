@@ -1,27 +1,13 @@
 import {
   Container,
   Spinner,
-  Input,
-  Grid,
-  Card,
   Center,
   Button,
   LinkBox,
-  InputGroup,
-  InputLeftElement,
   useColorModeValue,
   SimpleGrid,
 } from "@chakra-ui/react";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+
 import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useQuery } from "@apollo/client";
 import { QUERY_TAGS, QUERY_KEYWORDPOSTS } from "../utils/queries";
@@ -30,9 +16,22 @@ import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
-  const [isExpand, setIsExpand] = useState(false);
+  let initialExpandMode = localStorage.getItem("expandMode");
+  if (initialExpandMode !== null) {
+    console.log(initialExpandMode);
+  } else {
+    initialExpandMode = false;
+  }
+  const [isExpand, setIsExpand] = useState(initialExpandMode);
+
   const { loading: loading1, data: data1 } = useQuery(QUERY_TAGS);
   const tags = data1?.tags || [];
+
+  const handleExpand = (e) => {
+    e.preventDefault();
+    setIsExpand(!isExpand);
+    localStorage.setItem("expandMode", !isExpand);
+  };
 
   return (
     <Container pb={12}>
@@ -98,7 +97,7 @@ const HomePage = () => {
         mx={"auto"}
         bg={"orange.400"}
         color={"white"}
-        onClick={() => setIsExpand(!isExpand)}
+        onClick={handleExpand}
         _hover={{
           bg: "orange.500",
         }}
