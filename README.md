@@ -20,9 +20,7 @@ The application accepts and responds to user input, uses queries and mutations f
 
 The following image shows the web application's appearance and functionality:
 
-![The UI of create post page](./client/public/Screenshot_createpage.png)
-
-![The UI of listing posts under a category](./client/public/Screenshot_listpage.png)
+![The mobile UI of the list result page, the create post page and the single post page](./client/public/mobile_layouts.jpg)
 
 ## Review
 
