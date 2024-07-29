@@ -16,18 +16,23 @@ import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
-  let initialExpandMode = localStorage.getItem("expandMode");
+  let initialExpandMode = localStorage.getItem("expandMode") || false;
+  console.log(typeof localStorage.getItem("expandMode"));
   if (initialExpandMode !== null) {
-    console.log(initialExpandMode);
+    if (initialExpandMode === "true") {
+      initialExpandMode = true;
+    } else {
+      initialExpandMode = false;
+    }
   } else {
     initialExpandMode = false;
   }
 
   const [isExpand, setIsExpand] = useState(initialExpandMode);
 
-  // useEffect(() => {
-  //   localStorage.setItem("expandMode", isExpand), [];
-  // });
+  useEffect(() => {
+    localStorage.setItem("expandMode", isExpand), [isExpand];
+  });
 
   const { loading: loading1, data: data1 } = useQuery(QUERY_TAGS);
   const tags = data1?.tags || [];
@@ -37,7 +42,7 @@ const HomePage = () => {
     setIsExpand(!isExpand);
     console.log(isExpand);
   };
-
+  // localStorage.setItem("expandMode", false);
   return (
     <Container pb={12}>
       <SearchBar />
@@ -61,7 +66,6 @@ const HomePage = () => {
           ))}
 
         {isExpand == false &&
-          tags &&
           tags.length > 6 &&
           tags.slice(0, 6).map((tag) => (
             <LinkBox key={tag._id} as={RouterLink} to={`/tags/${tag._id}`}>
