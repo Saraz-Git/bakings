@@ -22,7 +22,12 @@ const HomePage = () => {
   } else {
     initialExpandMode = false;
   }
+
   const [isExpand, setIsExpand] = useState(initialExpandMode);
+
+  // useEffect(() => {
+  //   localStorage.setItem("expandMode", isExpand), [];
+  // });
 
   const { loading: loading1, data: data1 } = useQuery(QUERY_TAGS);
   const tags = data1?.tags || [];
@@ -30,7 +35,7 @@ const HomePage = () => {
   const handleExpand = (e) => {
     e.preventDefault();
     setIsExpand(!isExpand);
-    localStorage.setItem("expandMode", !isExpand);
+    console.log(isExpand);
   };
 
   return (
@@ -38,7 +43,7 @@ const HomePage = () => {
       <SearchBar />
 
       <SimpleGrid columns={[2, null, 3]} gap={6}>
-        {!isExpand &&
+        {isExpand == false &&
           tags.length <= 6 &&
           tags.map((tag) => (
             <LinkBox key={tag._id} as={RouterLink} to={`/tags/${tag._id}`}>
@@ -55,7 +60,7 @@ const HomePage = () => {
             </LinkBox>
           ))}
 
-        {!isExpand &&
+        {isExpand == false &&
           tags &&
           tags.length > 6 &&
           tags.slice(0, 6).map((tag) => (

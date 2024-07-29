@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const videoPreview = () => {
+const useVideoPreview = () => {
     const [videoSrc, setVideoSrc] = useState(null);
 
     const handleVideoChange = (event) => {
@@ -15,4 +15,4 @@ const videoPreview = () => {
 
 
 
-export default videoPreview
+export default useVideoPreview
