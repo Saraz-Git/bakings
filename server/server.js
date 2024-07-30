@@ -9,9 +9,7 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
-
 const cloudinary = require('cloudinary').v2
-
 
 const PORT = process.env.PORT || 4001;
 const app = express();
@@ -19,12 +17,6 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
 });
-
-// cloudinary.config({
-//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//     api_key: process.env.CLOUDINARY_API_KEY,
-//     api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {

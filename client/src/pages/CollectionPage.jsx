@@ -11,7 +11,7 @@ const CollectionPage = () => {
   }
 
   const { data, error, loading } = useQuery(QUERY_ME);
-  console.log(data);
+
   const me = data?.me || {};
 
   if (loading) {

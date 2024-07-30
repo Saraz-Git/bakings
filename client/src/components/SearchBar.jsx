@@ -66,9 +66,9 @@ const SearchBar = () => {
             type="search"
             placeholder="Search"
             onChange={handleInputChange}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") console.log(e.target.value);
-            }}
+            // onKeyPress={(e) => {
+            //   if (e.key === "Enter") console.log(e.target.value);
+            // }}
           />
         </InputGroup>
 

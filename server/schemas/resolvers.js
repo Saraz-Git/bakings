@@ -9,7 +9,6 @@ const resolvers = {
             return Tag.find().populate('posts');
         },
         tag: async (_, { tagId }) => {
-
             return Tag.findById({ _id: tagId }).populate('posts');
         },
         users: async () => {
