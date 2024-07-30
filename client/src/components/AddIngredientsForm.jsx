@@ -25,9 +25,7 @@ const AddIngredientsFrom = ({ onData }) => {
 
   const [ingredients, setIngredients] = useState([]);
   const [formState, setFormState] = useState({ material: "", amount: "" });
-  useEffect(() => {
-    console.log(`Ingredients changed to: ${ingredients}`);
-  }, [ingredients]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({

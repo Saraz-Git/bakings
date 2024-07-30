@@ -17,7 +17,6 @@ import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
   let initialExpandMode = localStorage.getItem("expandMode") || false;
-  console.log(typeof localStorage.getItem("expandMode"));
   if (initialExpandMode !== null) {
     if (initialExpandMode === "true") {
       initialExpandMode = true;
@@ -34,15 +33,9 @@ const HomePage = () => {
     localStorage.setItem("expandMode", isExpand), [isExpand];
   });
 
-  const { loading: loading1, data: data1 } = useQuery(QUERY_TAGS);
-  const tags = data1?.tags || [];
+  const { loading, data } = useQuery(QUERY_TAGS);
+  const tags = data?.tags || [];
 
-  const handleExpand = (e) => {
-    e.preventDefault();
-    setIsExpand(!isExpand);
-    console.log(isExpand);
-  };
-  // localStorage.setItem("expandMode", false);
   return (
     <Container pb={12}>
       <SearchBar />
@@ -106,7 +99,7 @@ const HomePage = () => {
         mx={"auto"}
         bg={"orange.400"}
         color={"white"}
-        onClick={handleExpand}
+        onClick={() => setIsExpand(!isExpand)}
         _hover={{
           bg: "orange.500",
         }}
