@@ -46,6 +46,7 @@ const PostList = ({ posts }) => {
               borderTopRightRadius={{ base: "5px", sm: "0" }}
               className="cardImg"
               w="600px"
+              h="250px"
               objectFit="cover"
               maxW={{ base: "100%", sm: "250px" }}
               src={post.coverUrl}

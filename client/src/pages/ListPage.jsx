@@ -1,5 +1,5 @@
 import { Container, Text, Spinner } from "@chakra-ui/react";
-import PostCard from "../components/PostCard";
+
 import { Link as RouterLink } from "react-router-dom";
 import PostList from "../components/PostList";
 import { useParams } from "react-router-dom";
